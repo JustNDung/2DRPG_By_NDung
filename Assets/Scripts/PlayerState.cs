@@ -21,6 +21,7 @@ public class PlayerState
     public virtual void Update()
     {
         xInput = Input.GetAxisRaw("Horizontal");
+        player.anim.SetFloat("yVelocity", rb.linearVelocity.y);
     }
     public virtual void Exit()
     {

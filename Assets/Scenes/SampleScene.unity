@@ -151,8 +151,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 12
+  jumpForce: 12
   idle: Idle
   move: Move
+  jump: Jump
 --- !u!4 &322639803
 Transform:
   m_ObjectHideFlags: 0
