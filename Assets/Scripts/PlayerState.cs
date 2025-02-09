@@ -1,9 +1,11 @@
 using UnityEngine;
 
-public class PlayerState : MonoBehaviour
+public class PlayerState
 {
+    protected Rigidbody2D rb;
     protected PlayerStateMachine stateMachine;
     protected Player player;
+    protected float xInput;
     private string animBoolName; 
     public PlayerState(Player _player, PlayerStateMachine _stateMachine, string _animBoolName)
     {
@@ -14,15 +16,14 @@ public class PlayerState : MonoBehaviour
     public virtual void Enter()
     {
         player.anim.SetBool(animBoolName, true);
-        Debug.Log("Entered " + this.GetType().Name);
+        rb = player.rb;
     }
     public virtual void Update()
     {
-        Debug.Log("Exited " + this.GetType().Name);
+        xInput = Input.GetAxisRaw("Horizontal");
     }
     public virtual void Exit()
     {
-        player.anim.SetBool(animBoolName, false);
-        Debug.Log("Updated " + this.GetType().Name);
+        player.anim.SetBool(animBoolName, false); 
     }
 }
