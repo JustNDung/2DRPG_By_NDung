@@ -13,6 +13,7 @@ public class PlayerState : MonoBehaviour
     }
     public virtual void Enter()
     {
+        player.anim.SetBool(animBoolName, true);
         Debug.Log("Entered " + this.GetType().Name);
     }
     public virtual void Update()
@@ -21,6 +22,7 @@ public class PlayerState : MonoBehaviour
     }
     public virtual void Exit()
     {
+        player.anim.SetBool(animBoolName, false);
         Debug.Log("Updated " + this.GetType().Name);
     }
 }
