@@ -183,6 +183,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 12
   jumpForce: 12
+  dashCooldown: 1
+  dashTimer: 0
+  dashSpeed: 25
+  dashDuration: 0.2
   groundCheck: {fileID: 245097584}
   groundCheckDistance: 0.15
   wallCheck: {fileID: 672978103}
@@ -193,6 +197,7 @@ MonoBehaviour:
   idle: Idle
   move: Move
   jump: Jump
+  dash: Dash
 --- !u!4 &322639803
 Transform:
   m_ObjectHideFlags: 0

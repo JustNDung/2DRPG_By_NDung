@@ -1,10 +1,21 @@
 using System;
 using UnityEngine;
+using UnityEngine.Scripting.APIUpdating;
 
 public class Player : MonoBehaviour
 {   
+    [Header("Move info")]
     public float moveSpeed = 12f;
     public float jumpForce = 16f;
+
+    [Header("Dash info")]
+    [SerializeField] private float dashCooldown;
+    [SerializeField] private float dashTimer;
+    public float dashSpeed;
+    public float dashDuration;
+    public float dashDir { get; private set; }
+
+    [Header("Collision info")]
     [SerializeField] private Transform groundCheck;
     [SerializeField] private float groundCheckDistance;
     [SerializeField] private Transform wallCheck;
@@ -14,16 +25,25 @@ public class Player : MonoBehaviour
     public int facingDirection { get; private set; } = 1;
     private bool facingRight = true;
 
+    #region Components
     public Animator anim { get; private set; }
     public Rigidbody2D rb { get; private set; }
+
+    #endregion
+
+    #region States
     public PlayerStateMachine stateMachine { get; private set; }
     public PlayerIdleState idleState { get; private set; }
     public PlayerMoveState moveState { get; private set; }
     public PlayerJumpState jumpState { get; private set; }
     public PlayerAirState airState { get; private set; }
+    public PlayerDashState dashState { get; private set; }
     [SerializeField] private String idle = "Idle";
-    [SerializeField] private String move = "Move";
+    [SerializeField] private String move = "Move"; 
     [SerializeField] private String jump = "Jump";
+    [SerializeField] private String dash = "Dash";
+
+    #endregion
     private void Awake()
     {
         stateMachine = new PlayerStateMachine();
@@ -32,6 +52,7 @@ public class Player : MonoBehaviour
         moveState = new PlayerMoveState(this, stateMachine, move);
         jumpState = new PlayerJumpState(this, stateMachine, jump);
         airState = new PlayerAirState(this, stateMachine, jump);
+        dashState = new PlayerDashState(this, stateMachine, dash);
     }
     private void Start()
     {
@@ -43,6 +64,19 @@ public class Player : MonoBehaviour
     private void Update()
     {
         stateMachine.currentState.Update();
+        CheckForDashInput();
+    }
+
+    private void CheckForDashInput() {
+        dashTimer -= Time.deltaTime;
+        if (Input.GetKeyDown(KeyCode.LeftShift) && dashTimer < 0) {
+            dashTimer = dashCooldown;
+            dashDir = Input.GetAxisRaw("Horizontal");
+            if (dashDir == 0) {
+                dashDir = facingDirection;
+            }
+            stateMachine.ChangeState(dashState);
+        }
     }
 
     public void SetVelocity(float xVelocity, float yVelocity)
