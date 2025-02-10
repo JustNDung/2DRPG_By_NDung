@@ -5,6 +5,8 @@ public class Player : MonoBehaviour
 {   
     public float moveSpeed = 12f;
     public float jumpForce = 16f;
+    public float dashSpeed;
+    public float dashDuration;
     [SerializeField] private Transform groundCheck;
     [SerializeField] private float groundCheckDistance;
     [SerializeField] private Transform wallCheck;
@@ -21,9 +23,11 @@ public class Player : MonoBehaviour
     public PlayerMoveState moveState { get; private set; }
     public PlayerJumpState jumpState { get; private set; }
     public PlayerAirState airState { get; private set; }
+    public PlayerDashState dashState { get; private set; }
     [SerializeField] private String idle = "Idle";
-    [SerializeField] private String move = "Move";
+    [SerializeField] private String move = "Move"; 
     [SerializeField] private String jump = "Jump";
+    [SerializeField] private String dash = "Dash";
     private void Awake()
     {
         stateMachine = new PlayerStateMachine();
@@ -32,6 +36,7 @@ public class Player : MonoBehaviour
         moveState = new PlayerMoveState(this, stateMachine, move);
         jumpState = new PlayerJumpState(this, stateMachine, jump);
         airState = new PlayerAirState(this, stateMachine, jump);
+        dashState = new PlayerDashState(this, stateMachine, dash);
     }
     private void Start()
     {
