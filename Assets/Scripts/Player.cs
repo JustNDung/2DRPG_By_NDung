@@ -39,11 +39,13 @@ public class Player : MonoBehaviour
     public PlayerDashState dashState { get; private set; }
     public PlayerWallSlideState wallSlideState { get; private set; }
     public PlayerWallJumpState wallJumpState { get; private set; }
+    public PlayerPrimaryAttackState primaryAttackState { get; private set; }
     [SerializeField] private String idle = "Idle";
     [SerializeField] private String move = "Move"; 
     [SerializeField] private String jump = "Jump";
     [SerializeField] private String dash = "Dash";
     [SerializeField] private String wallSlide = "WallSlide";
+    [SerializeField] private String primaryAttack = "Attack";
 
     #endregion
     private void Awake()
@@ -57,6 +59,8 @@ public class Player : MonoBehaviour
         dashState = new PlayerDashState(this, stateMachine, dash);
         wallSlideState = new PlayerWallSlideState(this, stateMachine, wallSlide);
         wallJumpState = new PlayerWallJumpState(this, stateMachine, jump);
+
+        primaryAttackState = new PlayerPrimaryAttackState(this, stateMachine, primaryAttack);
     }
     private void Start()
     {
@@ -70,6 +74,7 @@ public class Player : MonoBehaviour
         stateMachine.currentState.Update();
         CheckForDashInput();
     }
+    public void AnimationTrigger() => stateMachine.currentState.AnimationFinishTrigger();
 
     private void CheckForDashInput() {
         if (IsWallDetected()) {
