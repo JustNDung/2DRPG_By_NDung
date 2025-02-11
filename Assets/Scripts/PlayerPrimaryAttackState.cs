@@ -19,7 +19,13 @@ public class PlayerPrimaryAttackState : PlayerState
             comboCounter = 0;
         }
         player.anim.SetInteger(comboCounterStr, comboCounter);
-        player.SetVelocity(player.attackMovement[comboCounter].x * player.facingDirection, player.attackMovement[comboCounter].y);
+
+        float attackDir = player.facingDirection;
+        if (xInput != 0) {
+            attackDir = xInput;
+        }
+        
+        player.SetVelocity(player.attackMovement[comboCounter].x * attackDir, player.attackMovement[comboCounter].y);
         stateTimer = 0.1f;
     }
     public override void Update()
