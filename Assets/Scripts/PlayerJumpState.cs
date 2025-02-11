@@ -22,6 +22,10 @@ public class PlayerJumpState : PlayerState
     {
         base.Update();
 
+        if (player.IsWallDetected()) {
+            stateMachine.ChangeState(player.wallSlideState);    
+        }
+
         if (rb.linearVelocity.y < 0f) {
             stateMachine.ChangeState(player.airState);
         }
