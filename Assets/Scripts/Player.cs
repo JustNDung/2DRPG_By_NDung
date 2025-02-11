@@ -1,8 +1,13 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {   
+    [Header("Attack details")]
+    public Vector2[] attackMovement;
+    public bool isBusy {get; private set;}
+
     [Header("Move info")]
     public float moveSpeed = 12f;
     public float jumpForce = 16f;
@@ -74,8 +79,12 @@ public class Player : MonoBehaviour
         stateMachine.currentState.Update();
         CheckForDashInput();
     }
+    public IEnumerator BusyFor(float duration) {
+        isBusy = true;
+        yield return new WaitForSeconds(duration);
+        isBusy = false;
+    }
     public void AnimationTrigger() => stateMachine.currentState.AnimationFinishTrigger();
-
     private void CheckForDashInput() {
         if (IsWallDetected()) {
             return;
@@ -91,12 +100,16 @@ public class Player : MonoBehaviour
         }
     }
 
+    #region Velocity    
+    public void ZeroVelocity() => rb.linearVelocity = Vector2.zero;
     public void SetVelocity(float xVelocity, float yVelocity)
     {
         rb.linearVelocity = new Vector2(xVelocity, yVelocity);
         FlipController(xVelocity);
     }
+    #endregion
 
+    #region Collision
     public bool IsGroundedDetected() => Physics2D.Raycast(groundCheck.position, Vector2.down, groundCheckDistance, whatIsGround);
     public bool IsWallDetected() => Physics2D.Raycast(wallCheck.position, Vector2.right * facingDirection, wallCheckDistance, whatIsGround);
     private void OnDrawGizmos()
@@ -104,7 +117,9 @@ public class Player : MonoBehaviour
         Gizmos.DrawLine(groundCheck.position, new Vector3(groundCheck.position.x, groundCheck.position.y - groundCheckDistance, groundCheck.position.z));   
         Gizmos.DrawLine(wallCheck.position, wallCheck.position + Vector3.right * wallCheckDistance);
     }
+    #endregion
 
+    #region Flip
     public void Flip()
     {
         facingDirection *= -1;
@@ -119,5 +134,5 @@ public class Player : MonoBehaviour
             Flip();
         }
     }
-
+    #endregion
 }
