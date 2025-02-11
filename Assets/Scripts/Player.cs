@@ -1,7 +1,5 @@
 using System;
-using NUnit.Framework;
 using UnityEngine;
-using UnityEngine.Scripting.APIUpdating;
 
 public class Player : MonoBehaviour
 {   
@@ -40,6 +38,7 @@ public class Player : MonoBehaviour
     public PlayerAirState airState { get; private set; }
     public PlayerDashState dashState { get; private set; }
     public PlayerWallSlideState wallSlideState { get; private set; }
+    public PlayerWallJumpState wallJumpState { get; private set; }
     [SerializeField] private String idle = "Idle";
     [SerializeField] private String move = "Move"; 
     [SerializeField] private String jump = "Jump";
@@ -57,6 +56,7 @@ public class Player : MonoBehaviour
         airState = new PlayerAirState(this, stateMachine, jump);
         dashState = new PlayerDashState(this, stateMachine, dash);
         wallSlideState = new PlayerWallSlideState(this, stateMachine, wallSlide);
+        wallJumpState = new PlayerWallJumpState(this, stateMachine, jump);
     }
     private void Start()
     {
@@ -72,6 +72,9 @@ public class Player : MonoBehaviour
     }
 
     private void CheckForDashInput() {
+        if (IsWallDetected()) {
+            return;
+        }
         dashTimer -= Time.deltaTime;
         if (Input.GetKeyDown(KeyCode.LeftShift) && dashTimer < 0) {
             dashTimer = dashCooldown;
