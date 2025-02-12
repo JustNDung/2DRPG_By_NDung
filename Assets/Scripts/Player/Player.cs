@@ -78,6 +78,7 @@ public class Player : MonoBehaviour
     {
         stateMachine.currentState.Update();
         CheckForDashInput();
+
     }
     public IEnumerator BusyFor(float duration) {
         isBusy = true;

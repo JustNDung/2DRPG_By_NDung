@@ -27,7 +27,7 @@ public class PlayerWallSlideState : PlayerState
             }
         }
 
-        if (player.IsGroundedDetected()) {
+        if (player.IsGroundedDetected() || !player.IsWallDetected()) {
             stateMachine.ChangeState(player.idleState);
         }
 
