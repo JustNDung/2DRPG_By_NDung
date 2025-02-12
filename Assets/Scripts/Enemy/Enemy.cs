@@ -1,16 +1,20 @@
 using UnityEngine;
+using UnityEngine.Rendering;
 
-public class Enemy : MonoBehaviour
+public class Enemy : Entity
 {
-    public Rigidbody2D rb { get; private set; }
-    public Animator anim { get; private set; }
-    public EnemyStateMachine stateMachine { get; private set; }
-    private void Awake()
+    [Header("Move info")]
+    public float moveSpeed;
+    public float idleTime;
+    public EnemyStateMachine stateMachine { get; private set; } 
+    protected override void Awake()
     {
+        base.Awake();
         stateMachine = new EnemyStateMachine();
     }
-    private void Update()
+    protected override void Update()
     {
+        base.Update();
         stateMachine.currentState.Update();   
     }
 }
