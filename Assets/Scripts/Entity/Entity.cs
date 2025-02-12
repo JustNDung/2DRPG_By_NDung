@@ -18,7 +18,7 @@ public class Entity : MonoBehaviour
     protected bool facingRight = true;
     protected virtual void Awake()
     {
-        Debug.Log("Awake");
+        
     }
 
     protected virtual void Start()
@@ -29,7 +29,7 @@ public class Entity : MonoBehaviour
 
     protected virtual void Update()
     {
-        Debug.Log("Update");
+        
     }
 
     #region Velocity    
