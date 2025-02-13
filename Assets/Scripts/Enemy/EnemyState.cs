@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class EnemyState 
 {
+    protected Rigidbody2D rb;
     protected EnemyStateMachine stateMachine;
     protected Enemy enemyBase; 
 
@@ -19,6 +20,7 @@ public class EnemyState
     public virtual void Enter()
     {
         triggerCalled = false;
+        rb = enemyBase.rb;
         enemyBase.anim.SetBool(animBoolName, true);
     }
     public virtual void Update()

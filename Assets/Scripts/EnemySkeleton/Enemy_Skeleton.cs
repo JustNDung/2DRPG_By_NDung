@@ -6,15 +6,18 @@ public class Enemy_Skeleton : Enemy
     #region States
     public SkeletonIdleState idleState { get; private set; }
     public SkeletonMoveState moveState { get; private set; }
+    public SkeletonBattleState battleState { get; private set; }
     [SerializeField] private string idle = "Idle";
     [SerializeField] private string move = "Move";
 
     #endregion
+    private Vector2 velocity;
     protected override void Awake()
     {
         base.Awake();
         idleState = new SkeletonIdleState(stateMachine, this, idle, this);
         moveState = new SkeletonMoveState(stateMachine, this, move, this);
+        battleState = new SkeletonBattleState(stateMachine, this, move, this);
     }
 
     protected override void Start()
@@ -26,5 +29,6 @@ public class Enemy_Skeleton : Enemy
     protected override void Update()
     {
         base.Update();
+        velocity = rb.linearVelocity;
     }
 }
