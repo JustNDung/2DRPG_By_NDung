@@ -1,24 +1,22 @@
 using UnityEngine;
 
-public class SkeletonMoveState : EnemyState
+public class SkeletonMoveState : SkeletonGroundedState
 {
-    private Enemy_Skeleton enemySkeleton;
     public SkeletonMoveState(EnemyStateMachine stateMachine, Enemy enemy, string animBoolName, Enemy_Skeleton enemySkeleton)
-    : base(stateMachine, enemy, animBoolName)
+    : base(stateMachine, enemy, animBoolName, enemySkeleton)
     {
-        this.enemySkeleton = enemySkeleton;
     }
 
     public override void Enter()
     {
-        base.Enter();
-    }
+        base.Enter(); 
+    } 
 
     public override void Update()
     {
         base.Update();
  
-        enemySkeleton.SetVelocity(enemySkeleton.moveSpeed * enemySkeleton.facingDirection, enemySkeleton.rb.linearVelocity.y);
+        enemySkeleton.SetVelocity(enemySkeleton.moveSpeed * enemySkeleton.facingDirection, rb.linearVelocity.y);
         
         if (enemySkeleton.IsWallDetected() || !enemySkeleton.IsGroundedDetected()) {
             enemySkeleton.Flip();

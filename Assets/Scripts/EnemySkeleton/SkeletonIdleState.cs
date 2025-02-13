@@ -1,14 +1,11 @@
-using UnityEngine;
+using UnityEngine;  
 
-public class SkeletonIdleState : EnemyState
+public class SkeletonIdleState : SkeletonGroundedState
 {
-    private Enemy_Skeleton enemySkeleton;
     public SkeletonIdleState(EnemyStateMachine stateMachine, Enemy enemy, string animBoolName, Enemy_Skeleton enemySkeleton) 
-    : base(stateMachine, enemy, animBoolName)
+    : base(stateMachine, enemy, animBoolName, enemySkeleton)
     {
-        this.enemySkeleton = enemySkeleton;
     }
-
     public override void Enter()
     {
         base.Enter();
