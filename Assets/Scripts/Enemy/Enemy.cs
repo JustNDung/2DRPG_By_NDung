@@ -8,6 +8,8 @@ public class Enemy : Entity
     public float moveSpeed;
     public float idleTime;
     [Header("Attack info")]
+    public float attackCooldown;
+    public float lastTimeAttacked;
     public float attackDistance;
     public EnemyStateMachine stateMachine { get; private set; } 
     protected override void Awake()
@@ -20,6 +22,8 @@ public class Enemy : Entity
         base.Update();
         stateMachine.currentState.Update();   
     }
+
+    public virtual void AnimationFinishTrigger() => stateMachine.currentState.AnimationFinishTrigger();
 
     public virtual RaycastHit2D IsPlayerDetected() 
     => Physics2D.Raycast(wallCheck.position, Vector2.right * facingDirection, 50, whatIsPlayer);
