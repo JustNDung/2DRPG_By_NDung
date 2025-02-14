@@ -8,9 +8,11 @@ public class Enemy_Skeleton : Enemy
     public SkeletonMoveState moveState { get; private set; }
     public SkeletonBattleState battleState { get; private set; }
     public SkeletonAttackState attackState { get; private set; }    
+    public SkeletonStunnedState stunnedState { get; private set; }
     [SerializeField] private string idle = "Idle";
     [SerializeField] private string move = "Move";
     [SerializeField] private string attack = "Attack";
+    [SerializeField] private string stunned = "Stunned";
 
     #endregion
     private Vector2 velocity;
@@ -21,6 +23,7 @@ public class Enemy_Skeleton : Enemy
         moveState = new SkeletonMoveState(stateMachine, this, move, this);
         battleState = new SkeletonBattleState(stateMachine, this, move, this);
         attackState = new SkeletonAttackState(stateMachine, this, attack, this);
+        stunnedState = new SkeletonStunnedState(stateMachine, this, stunned, this);
     }
 
     protected override void Start()
@@ -33,5 +36,9 @@ public class Enemy_Skeleton : Enemy
     {
         base.Update();
         velocity = rb.linearVelocity;
+
+        if (Input.GetKeyDown(KeyCode.U)) {
+            stateMachine.ChangeState(stunnedState);
+        }
     }
 }
