@@ -1208,7 +1208,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &322639802
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1701,6 +1701,7 @@ GameObject:
   - component: {fileID: 840078706}
   - component: {fileID: 840078708}
   - component: {fileID: 840078707}
+  - component: {fileID: 840078709}
   m_Layer: 7
   m_Name: Animator
   m_TagString: Untagged
@@ -1800,6 +1801,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &840078709
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 840078705}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51f12987310af1a4294c3cfd811dce0e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &890042879
 GameObject:
   m_ObjectHideFlags: 0
@@ -2039,9 +2052,13 @@ MonoBehaviour:
     m_Bits: 64
   moveSpeed: 1.5
   idleTime: 2
+  battleTime: 7
+  attackCooldown: 0.5
+  lastTimeAttacked: 0
   attackDistance: 1.5
   idle: Idle
   move: Move
+  attack: Attack
 --- !u!4 &989421125
 Transform:
   m_ObjectHideFlags: 0
