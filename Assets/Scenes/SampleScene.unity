@@ -1171,6 +1171,7 @@ GameObject:
   - component: {fileID: 322639802}
   - component: {fileID: 322639804}
   - component: {fileID: 322639805}
+  - component: {fileID: 322639806}
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
@@ -1190,6 +1191,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02febd62ce019b545b7878f215bf9f5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  knockbackDirection: {x: 0, y: 0}
+  knockbackDuration: 0
   groundCheck: {fileID: 245097584}
   groundCheckDistance: 0.15
   wallCheck: {fileID: 672978103}
@@ -1298,6 +1301,20 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
+--- !u!114 &322639806
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 322639801}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5f1b0dabfb69fe46bb19204fbaa76f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flashDuration: 0.15
+  hitMaterial: {fileID: 2100000, guid: ee7b3b18d8f6389429678795ac6f6c49, type: 2}
 --- !u!1 &481223077
 GameObject:
   m_ObjectHideFlags: 0
@@ -1766,6 +1783,7 @@ GameObject:
   - component: {fileID: 714999935}
   - component: {fileID: 714999937}
   - component: {fileID: 714999936}
+  - component: {fileID: 714999939}
   m_Layer: 7
   m_Name: Enemy_Skeleton
   m_TagString: Untagged
@@ -1785,6 +1803,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea2aa9260fd2ed1469e55a0353c2fd1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  knockbackDirection: {x: 7, y: 12}
+  knockbackDuration: 0.07
   groundCheck: {fileID: 1040801573}
   groundCheckDistance: 0.4
   wallCheck: {fileID: 2133130622}
@@ -1898,6 +1918,20 @@ Transform:
   - {fileID: 1673350091}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &714999939
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 714999934}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5f1b0dabfb69fe46bb19204fbaa76f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flashDuration: 0.2
+  hitMaterial: {fileID: 2100000, guid: ee7b3b18d8f6389429678795ac6f6c49, type: 2}
 --- !u!1 &890042879
 GameObject:
   m_ObjectHideFlags: 0
