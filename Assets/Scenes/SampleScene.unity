@@ -1817,6 +1817,8 @@ MonoBehaviour:
   whatIsPlayer:
     serializedVersion: 2
     m_Bits: 64
+  stunDuration: 1
+  stunDirection: {x: 10, y: 12}
   moveSpeed: 1.5
   idleTime: 2
   battleTime: 7
@@ -1826,6 +1828,7 @@ MonoBehaviour:
   idle: Idle
   move: Move
   attack: Attack
+  stunned: Stunned
 --- !u!61 &714999936
 BoxCollider2D:
   m_ObjectHideFlags: 0
