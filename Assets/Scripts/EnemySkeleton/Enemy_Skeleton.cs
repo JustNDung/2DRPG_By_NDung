@@ -7,8 +7,10 @@ public class Enemy_Skeleton : Enemy
     public SkeletonIdleState idleState { get; private set; }
     public SkeletonMoveState moveState { get; private set; }
     public SkeletonBattleState battleState { get; private set; }
+    public SkeletonAttackState attackState { get; private set; }    
     [SerializeField] private string idle = "Idle";
     [SerializeField] private string move = "Move";
+    [SerializeField] private string attack = "Attack";
 
     #endregion
     private Vector2 velocity;
@@ -18,11 +20,12 @@ public class Enemy_Skeleton : Enemy
         idleState = new SkeletonIdleState(stateMachine, this, idle, this);
         moveState = new SkeletonMoveState(stateMachine, this, move, this);
         battleState = new SkeletonBattleState(stateMachine, this, move, this);
+        attackState = new SkeletonAttackState(stateMachine, this, attack, this);
     }
 
     protected override void Start()
     {
-        base.Start();
+        base.Start(); 
         stateMachine.Initialize(idleState);
     }
 
