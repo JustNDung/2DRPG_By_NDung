@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.XR;
 
 public class PlayerGroundedState : PlayerState
 {
@@ -15,6 +16,11 @@ public class PlayerGroundedState : PlayerState
     public override void Update()
     {
         base.Update();
+
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            stateMachine.ChangeState(player.counterAttackState);
+        }
 
         if (Input.GetKeyDown(KeyCode.Mouse0)) {
             stateMachine.ChangeState(player.primaryAttackState);
