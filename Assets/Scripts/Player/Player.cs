@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Player : Entity
 {  
+    public SkillManager skillManager;
     [Header("Attack details")]
     public Vector2[] attackMovement;
 
@@ -59,6 +60,7 @@ public class Player : Entity
     protected override void Start()
     {
         base.Start();
+        skillManager = SkillManager.instance;
         stateMachine.Initialize(idleState);
     }
 
