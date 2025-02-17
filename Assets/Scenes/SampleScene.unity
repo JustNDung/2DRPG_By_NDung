@@ -1437,6 +1437,7 @@ MonoBehaviour:
   clonePrefab: {fileID: 6640543995736855837, guid: 5f5ff9e5ece7f2b489a264515ed3b819, type: 3}
   clonePoolSize: 10
   cloneDuration: 1.5
+  canAttack: 1
 --- !u!1 &501982500
 GameObject:
   m_ObjectHideFlags: 0
