@@ -36,7 +36,6 @@ public class Clone_Skill_Controller : MonoBehaviour
     {
         if (canAttack)
         {
-            Debug.Log(canAttack);
             anim.SetInteger(attackNumber, Random.Range(minAttackNumber, maxAttackNumber));
         }
         spriteRenderer.color = originalColor;

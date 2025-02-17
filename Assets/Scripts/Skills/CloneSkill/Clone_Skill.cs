@@ -9,8 +9,9 @@ public class Clone_Skill : Skill
     [SerializeField] private bool canAttack;
     private GameObjectPooling clonePool;
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start(); 
         clonePool = new GameObjectPooling(clonePrefab, clonePoolSize);
     }
 

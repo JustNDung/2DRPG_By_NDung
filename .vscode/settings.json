@@ -56,5 +56,6 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "Role-PlayingGame.sln"
+    "dotnet.defaultSolution": "Role-PlayingGame.sln",
+    "dotnet.preferCSharpExtension": true
 }
