@@ -6,6 +6,7 @@ public class Clone_Skill : Skill
     [SerializeField] private GameObject clonePrefab;
     [SerializeField] private int clonePoolSize;
     [SerializeField] private float cloneDuration;
+    [SerializeField] private bool canAttack;
     private GameObjectPooling clonePool;
 
     private void Start()
@@ -16,8 +17,6 @@ public class Clone_Skill : Skill
     public void CreateClone(Transform clonePosition)
     {
         GameObject clone = clonePool.Get();
-        
-        clone.GetComponent<Clone_Skill_Controller>().SetupClone(clonePosition, cloneDuration);
-        
+        clone.GetComponent<Clone_Skill_Controller>().SetupClone(clonePosition, cloneDuration, canAttack);
     }
 }
