@@ -10,6 +10,7 @@ public class PlayerAimSwordState : PlayerState
     public override void Enter()
     {
         base.Enter();
+        player.skillManager.sword.DotsActive(true);
     }
 
     public override void Update()
