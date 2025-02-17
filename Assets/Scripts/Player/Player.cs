@@ -31,6 +31,8 @@ public class Player : Entity
     public PlayerWallJumpState wallJumpState { get; private set; }
     public PlayerPrimaryAttackState primaryAttackState { get; private set; }
     public PlayerCounterAttackState counterAttackState { get; private set; }
+    public PlayerAimSwordState aimSwordState { get; private set; }
+    public PlayerCatchSwordState catchSwordState { get; private set; }
     
     [SerializeField] private String idle = "Idle";
     [SerializeField] private String move = "Move"; 
@@ -39,6 +41,8 @@ public class Player : Entity
     [SerializeField] private String wallSlide = "WallSlide";
     [SerializeField] private String primaryAttack = "Attack";
     [SerializeField] private String counterAttack = "CounterAttack";
+    [SerializeField] private String aimSword = "AimSword";
+    [SerializeField] private String catchSword = "CatchSword";
 
     #endregion
     protected override void Awake()
@@ -56,6 +60,9 @@ public class Player : Entity
 
         primaryAttackState = new PlayerPrimaryAttackState(this, stateMachine, primaryAttack);
         counterAttackState = new PlayerCounterAttackState(this, stateMachine, counterAttack);
+        
+        aimSwordState = new PlayerAimSwordState(this, stateMachine, aimSword);
+        catchSwordState = new PlayerCatchSwordState(this, stateMachine, catchSword);
     }
     protected override void Start()
     {
