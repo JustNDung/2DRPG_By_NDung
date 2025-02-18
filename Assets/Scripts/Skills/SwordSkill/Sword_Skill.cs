@@ -48,7 +48,9 @@ public class Sword_Skill : Skill
     {
         GameObject newSword = swordPool.Get();
         newSword.transform.position = player.transform.position;
-        newSword.GetComponent<Sword_Skill_Controller>().SetupSword(finalDir, swordGravity);
+        newSword.GetComponent<Sword_Skill_Controller>().SetupSword(finalDir, swordGravity, player);
+        
+        player.AssignNewSword(newSword);
         DotsActive(false);
     }
 

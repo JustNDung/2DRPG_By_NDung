@@ -17,7 +17,7 @@ public class PlayerGroundedState : PlayerState
     {
         base.Update();
 
-        if (Input.GetKeyDown(KeyCode.Mouse1))
+        if (Input.GetKeyDown(KeyCode.Mouse1) && HasNoSword())
         {
             stateMachine.ChangeState(player.aimSwordState);
         }
@@ -40,9 +40,19 @@ public class PlayerGroundedState : PlayerState
         }
     }
 
+    private bool HasNoSword()
+    {
+        if (!player.sword)
+        {
+            return true;
+        }
+        player.sword.GetComponent<Sword_Skill_Controller>().ReturnSword();
+        return false;
+    }
+
     public override void Exit()
     {
         base.Exit();
-    }
+    } 
     // Sử dụng GroundedState để chuyển sang các trạng thái khác mà ko cần viết lại code lặp trong hàm Update.
 }

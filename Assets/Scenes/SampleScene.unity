@@ -1202,6 +1202,7 @@ MonoBehaviour:
     m_Bits: 8
   attackCheck: {fileID: 1476331074}
   attackCheckRadius: 0.8
+  sword: {fileID: 0}
   skillManager: {fileID: 0}
   attackMovement:
   - {x: 3, y: 1.5}
@@ -1456,8 +1457,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cooldown: 0
   swordPrefab: {fileID: 6187332881446191601, guid: a3f53a4daf0433a4fac205ebdc075ba7, type: 3}
-  launchForce: {x: 15, y: 20}
-  swordGravity: 4
+  launchForce: {x: 35, y: 25}
+  swordGravity: 4.5
   swordAmount: 10
   numberOfDots: 20
   spaceBetweenDots: 0.07
@@ -8139,7 +8140,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1336381224550714054, guid: a3f53a4daf0433a4fac205ebdc075ba7, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -2.92
       objectReference: {fileID: 0}
     - target: {fileID: 1336381224550714054, guid: a3f53a4daf0433a4fac205ebdc075ba7, type: 3}
       propertyPath: m_LocalPosition.y
@@ -8180,10 +8181,6 @@ PrefabInstance:
     - target: {fileID: 6187332881446191601, guid: a3f53a4daf0433a4fac205ebdc075ba7, type: 3}
       propertyPath: m_Name
       value: Sword
-      objectReference: {fileID: 0}
-    - target: {fileID: 6187332881446191601, guid: a3f53a4daf0433a4fac205ebdc075ba7, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
