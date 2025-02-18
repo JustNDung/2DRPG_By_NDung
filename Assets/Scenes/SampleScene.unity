@@ -1211,6 +1211,7 @@ MonoBehaviour:
   counterAttackDuration: 0.2
   moveSpeed: 12
   jumpForce: 18
+  swordReturnImpact: 7
   dashSpeed: 25
   dashDuration: 0.2
   idle: Idle
