@@ -36,7 +36,7 @@ public class Sword_Skill_Controller : MonoBehaviour
             );
             if (Vector2.Distance(transform.position, player.transform.position) < distanceToDisappear)
             {
-                player.ClearTheSword();
+                player.CatchSword();
             }
         }
     }
@@ -52,13 +52,18 @@ public class Sword_Skill_Controller : MonoBehaviour
 
     public void ReturnSword()
     {
-        rb.bodyType = RigidbodyType2D.Dynamic;
+        //rb.bodyType = RigidbodyType2D.Dynamic;
+        rb.constraints = RigidbodyConstraints2D.FreezeAll;
         transform.parent = null;
         isReturning = true;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if (isReturning)
+        {
+            return;
+        }
         canRotate = false;
         cd.enabled = false;
         rb.bodyType = RigidbodyType2D.Kinematic;
