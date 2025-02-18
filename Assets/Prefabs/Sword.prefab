@@ -223,3 +223,6 @@ MonoBehaviour:
   returnSpeed: 12
   distanceToDisappear: 1
   rotation: Rotate
+  isBouncing: 1
+  amountOfBounce: 4
+  enemyTarget: []

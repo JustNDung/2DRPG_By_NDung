@@ -7,8 +7,6 @@ public class Sword_Skill : Skill
     [SerializeField] private GameObject swordPrefab;
     [FormerlySerializedAs("launchDirection")] [SerializeField] private Vector2 launchForce;
     [SerializeField] private float swordGravity;
-    [SerializeField] private int swordAmount;
-    private GameObjectPooling swordPool;
     private Vector2 finalDir;
 
     [Header("Aim dots")] 
@@ -21,7 +19,6 @@ public class Sword_Skill : Skill
     protected override void Start()
     {
         base.Start();
-        swordPool = new GameObjectPooling(swordPrefab, swordAmount);
         GenerateDots();
     }
 
@@ -46,10 +43,8 @@ public class Sword_Skill : Skill
     // Tạo sword rồi set lực và vị trí cho nó.
     public void CreateSword()
     {
-        GameObject newSword = swordPool.Get();
-        newSword.transform.position = player.transform.position;
+        GameObject newSword = Instantiate(swordPrefab, player.transform.position, Quaternion.identity);
         newSword.GetComponent<Sword_Skill_Controller>().SetupSword(finalDir, swordGravity, player);
-        
         player.AssignNewSword(newSword);
         DotsActive(false);
     }
