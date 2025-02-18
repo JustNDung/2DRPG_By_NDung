@@ -1460,7 +1460,6 @@ MonoBehaviour:
   swordPrefab: {fileID: 6187332881446191601, guid: a3f53a4daf0433a4fac205ebdc075ba7, type: 3}
   launchForce: {x: 35, y: 25}
   swordGravity: 4.5
-  swordAmount: 10
   numberOfDots: 20
   spaceBetweenDots: 0.07
   dotPrefab: {fileID: 224237490750937652, guid: eadb2e5074703a84a97648b959a08307, type: 3}

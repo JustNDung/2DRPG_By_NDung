@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Sword_Skill_Controller : MonoBehaviour
@@ -14,6 +15,11 @@ public class Sword_Skill_Controller : MonoBehaviour
     private bool canRotate = true;
     private bool isReturning;
 
+    public float bounceSpeed = 20f;
+    public bool isBouncing = true;
+    public int amountOfBounce = 4;
+    public List<Transform> enemyTarget;
+    private int targetIndex;
     private void Awake()
     {
         animator = GetComponentInChildren<Animator>();
@@ -30,14 +36,49 @@ public class Sword_Skill_Controller : MonoBehaviour
 
         if (isReturning)
         {
-            transform.position = Vector2.MoveTowards(
-                transform.position, player.transform.position
-                , returnSpeed * Time.deltaTime
-            );
-            if (Vector2.Distance(transform.position, player.transform.position) < distanceToDisappear)
+            ReturningLogic();
+        }
+
+        if (isBouncing && enemyTarget.Count > 0)
+        {
+            BouncingLogic();
+        }
+    }
+
+    private void BouncingLogic()
+    {
+        transform.position = Vector2.MoveTowards(transform.position
+            , enemyTarget[targetIndex].position
+            , bounceSpeed * Time.deltaTime
+        );
+
+        if (Vector2.Distance(transform.position, enemyTarget[targetIndex].position) < .1f)
+        {
+            targetIndex++;
+            amountOfBounce--;
+            if (amountOfBounce <= 0)
             {
-                player.CatchSword();
+                isBouncing = false;
+                isReturning = true;
             }
+            
+            if (targetIndex >= enemyTarget.Count)
+            {
+                targetIndex = 0; 
+            }
+        }
+    }
+
+    private void ReturningLogic()
+    {
+        transform.position = Vector2.MoveTowards(
+            transform.position, player.transform.position
+            , returnSpeed * Time.deltaTime
+        );
+        animator.SetBool(rotation, true);
+        if (Vector2.Distance(transform.position, player.transform.position) < distanceToDisappear)
+        {
+            player.CatchSword();
         }
     }
 
@@ -64,11 +105,37 @@ public class Sword_Skill_Controller : MonoBehaviour
         {
             return;
         }
+
+        if (other.GetComponent<Enemy>() != null)
+        {
+            if (isBouncing && enemyTarget.Count <= 0)
+            {
+                Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, 10);
+
+                foreach (var hit in colliders)
+                {
+                    if (hit.TryGetComponent(out Enemy enemy))
+                    {
+                        enemyTarget.Add(hit.transform);
+                    }
+                }
+            }
+        }
+        
+        StuckInto(other);
+    }
+
+    private void StuckInto(Collider2D other)
+    {
         canRotate = false;
         cd.enabled = false;
         rb.bodyType = RigidbodyType2D.Kinematic;
         rb.constraints = RigidbodyConstraints2D.FreezeAll;
 
+        if (isBouncing && enemyTarget.Count > 0)
+        {
+            return;
+        }
         transform.parent = other.transform;
         animator.SetBool(rotation, false);
     }
