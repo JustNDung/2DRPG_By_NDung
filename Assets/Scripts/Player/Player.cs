@@ -3,7 +3,8 @@ using System.Collections;
 using UnityEngine;
 
 public class Player : Entity
-{  
+{
+    public GameObject sword; 
     public SkillManager skillManager;
     [Header("Attack details")]
     public Vector2[] attackMovement;
@@ -76,6 +77,16 @@ public class Player : Entity
         base.Update();
         stateMachine.currentState.Update();
         CheckForDashInput();
+    }
+
+    public void AssignNewSword(GameObject newSword)
+    {
+        sword = newSword;
+    }
+
+    public void ClearTheSword()
+    {
+        Destroy(sword);
     }
     public IEnumerator BusyFor(float duration) {
         isBusy = true;
