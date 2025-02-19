@@ -224,5 +224,5 @@ MonoBehaviour:
   distanceToDisappear: 1
   rotation: Rotate
   amountOfPierce: 0
-  bounceSpeed: 0
+  bounceSpeed: 20
   enemyTarget: []
