@@ -16,6 +16,10 @@ public class Sword_Skill : Skill
     [SerializeField] private int amountOfBounce;
     [SerializeField] private float bounceGravity;
     
+    [Header("Pierce info")]
+    [SerializeField] private int amountOfPierce;
+    [SerializeField] private float pierceGravity;
+    
     [Header("Skill info")]
     [SerializeField] private GameObject swordPrefab;
     [FormerlySerializedAs("launchDirection")] [SerializeField] private Vector2 launchForce;
@@ -33,6 +37,26 @@ public class Sword_Skill : Skill
     {
         base.Start();
         GenerateDots();
+        SetupGravity();
+    }
+
+    private void SetupGravity()
+    {
+        switch (swordType)
+        {
+            case SwordType.Regular:
+                swordGravity = 1.0f; // Default gravity for Regular type
+                break;
+            case SwordType.Bounce:
+                swordGravity = bounceGravity;
+                break;
+            case SwordType.Pierce:
+                swordGravity = pierceGravity;
+                break;
+            case SwordType.Spin:
+                swordGravity = 0.5f; // Example gravity for Spin type
+                break;
+        }
     }
 
     protected override void Update()
@@ -63,9 +87,10 @@ public class Sword_Skill : Skill
         switch (swordType)
         {
             case SwordType.Bounce:
-                // Add logic for Bounce type
-                swordGravity = bounceGravity;
                 newSwordController.SetupBounce(true, amountOfBounce);
+                break;
+            case SwordType.Pierce:
+                newSwordController.SetupPierce(amountOfPierce);
                 break;
             // Add other cases if needed
         }
