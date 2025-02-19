@@ -207,7 +207,7 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 0.4
+  m_Radius: 0.35
 --- !u!114 &919932995636396722
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -223,6 +223,6 @@ MonoBehaviour:
   returnSpeed: 12
   distanceToDisappear: 1
   rotation: Rotate
-  isBouncing: 1
-  amountOfBounce: 4
+  amountOfPierce: 0
+  bounceSpeed: 0
   enemyTarget: []

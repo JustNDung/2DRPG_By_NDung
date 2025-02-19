@@ -15,6 +15,9 @@ public class Sword_Skill_Controller : MonoBehaviour
     private bool canRotate = true;
     private bool isReturning;
 
+    [Header("Pierce info")]
+    [SerializeField] private int amountOfPierce;
+    
     [Header("Bounce info")]
     [SerializeField] private float bounceSpeed;
     private bool isBouncing;
@@ -89,7 +92,10 @@ public class Sword_Skill_Controller : MonoBehaviour
         rb.linearVelocity = dir;
         rb.gravityScale = gravityScale;
 
-        animator.SetBool(rotation, true);
+        if (amountOfPierce <= 0)
+        {
+            animator.SetBool(rotation, true);
+        }
     }
     
     public void SetupBounce(bool isBouncing, int amountOfBounce)
@@ -97,6 +103,11 @@ public class Sword_Skill_Controller : MonoBehaviour
         this.isBouncing = isBouncing;
         this.amountOfBounce = amountOfBounce;
         enemyTarget = new List<Transform>();
+    }
+
+    public void SetupPierce(int amountOfPierce)
+    {
+        this.amountOfPierce = amountOfPierce;
     }
 
     public void ReturnSword()
@@ -113,7 +124,9 @@ public class Sword_Skill_Controller : MonoBehaviour
         {
             return;
         }
-
+        
+        other.GetComponent<Enemy>()?.Damage();
+        
         if (other.GetComponent<Enemy>() != null)
         {
             if (isBouncing && enemyTarget.Count <= 0)
@@ -135,6 +148,11 @@ public class Sword_Skill_Controller : MonoBehaviour
 
     private void StuckInto(Collider2D other)
     {
+        if (amountOfPierce > 0 && other.GetComponent<Enemy>() != null)
+        {
+            amountOfPierce--;
+            return;
+        }
         canRotate = false;
         cd.enabled = false;
         rb.bodyType = RigidbodyType2D.Kinematic;
