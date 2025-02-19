@@ -19,6 +19,12 @@ public class Sword_Skill : Skill
     [Header("Pierce info")]
     [SerializeField] private int amountOfPierce;
     [SerializeField] private float pierceGravity;
+
+    [Header("Spin info")] 
+    [SerializeField] private float hitCooldown = 0.35f;
+    [SerializeField] private float maxTravelDistance = 7f;
+    [SerializeField] private float spinDuration = 2f;
+    [SerializeField] private float spinGravity = 1f;
     
     [Header("Skill info")]
     [SerializeField] private GameObject swordPrefab;
@@ -54,7 +60,7 @@ public class Sword_Skill : Skill
                 swordGravity = pierceGravity;
                 break;
             case SwordType.Spin:
-                swordGravity = 0.5f; // Example gravity for Spin type
+                swordGravity = spinGravity; // Example gravity for Spin type
                 break;
         }
     }
@@ -91,6 +97,9 @@ public class Sword_Skill : Skill
                 break;
             case SwordType.Pierce:
                 newSwordController.SetupPierce(amountOfPierce);
+                break;
+            case SwordType.Spin:
+                newSwordController.SetupSpin(true, maxTravelDistance, spinDuration, hitCooldown);
                 break;
             // Add other cases if needed
         }
