@@ -1,8 +1,21 @@
 using UnityEngine;
 using UnityEngine.Serialization;
 
+public enum SwordType
+{
+    Regular,
+    Bounce,
+    Pierce,
+    Spin
+}
 public class Sword_Skill : Skill
 {
+    public SwordType swordType = SwordType.Regular;
+    
+    [Header("Bounce info")] 
+    [SerializeField] private int amountOfBounce;
+    [SerializeField] private float bounceGravity;
+    
     [Header("Skill info")]
     [SerializeField] private GameObject swordPrefab;
     [FormerlySerializedAs("launchDirection")] [SerializeField] private Vector2 launchForce;
@@ -44,11 +57,24 @@ public class Sword_Skill : Skill
     public void CreateSword()
     {
         GameObject newSword = Instantiate(swordPrefab, player.transform.position, Quaternion.identity);
-        newSword.GetComponent<Sword_Skill_Controller>().SetupSword(finalDir, swordGravity, player);
+        Sword_Skill_Controller newSwordController = newSword.GetComponent<Sword_Skill_Controller>();
+
+        
+        switch (swordType)
+        {
+            case SwordType.Bounce:
+                // Add logic for Bounce type
+                swordGravity = bounceGravity;
+                newSwordController.SetupBounce(true, amountOfBounce);
+                break;
+            // Add other cases if needed
+        }
+        newSwordController.SetupSword(finalDir, swordGravity, player);
         player.AssignNewSword(newSword);
         DotsActive(false);
     }
 
+    #region Aim region
     public Vector2 AimDirection()
     {
         Vector2 playerPosition = player.transform.position;
@@ -85,4 +111,5 @@ public class Sword_Skill : Skill
         // Công thức vât lý : p + vt + 1/2 * a * t^2
         return position;
     }
+    #endregion
 }

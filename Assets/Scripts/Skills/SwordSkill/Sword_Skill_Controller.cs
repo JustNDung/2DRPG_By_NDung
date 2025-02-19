@@ -15,9 +15,10 @@ public class Sword_Skill_Controller : MonoBehaviour
     private bool canRotate = true;
     private bool isReturning;
 
-    public float bounceSpeed = 20f;
-    public bool isBouncing = true;
-    public int amountOfBounce = 4;
+    [Header("Bounce info")]
+    [SerializeField] private float bounceSpeed;
+    private bool isBouncing;
+    private int amountOfBounce;
     public List<Transform> enemyTarget;
     private int targetIndex;
     private void Awake()
@@ -89,6 +90,13 @@ public class Sword_Skill_Controller : MonoBehaviour
         rb.gravityScale = gravityScale;
 
         animator.SetBool(rotation, true);
+    }
+    
+    public void SetupBounce(bool isBouncing, int amountOfBounce)
+    {
+        this.isBouncing = isBouncing;
+        this.amountOfBounce = amountOfBounce;
+        enemyTarget = new List<Transform>();
     }
 
     public void ReturnSword()
