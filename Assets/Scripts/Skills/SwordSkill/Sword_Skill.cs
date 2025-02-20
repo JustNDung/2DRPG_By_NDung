@@ -15,6 +15,7 @@ public class Sword_Skill : Skill
     [Header("Bounce info")] 
     [SerializeField] private int amountOfBounce;
     [SerializeField] private float bounceGravity;
+    [SerializeField] private float bounceSpeed;
     
     [Header("Pierce info")]
     [SerializeField] private int amountOfPierce;
@@ -30,6 +31,8 @@ public class Sword_Skill : Skill
     [SerializeField] private GameObject swordPrefab;
     [FormerlySerializedAs("launchDirection")] [SerializeField] private Vector2 launchForce;
     [SerializeField] private float swordGravity;
+    [SerializeField] private float freezeTimeDuration;
+    [SerializeField] private float returnSpeed;
     private Vector2 finalDir;
 
     [Header("Aim dots")] 
@@ -93,7 +96,7 @@ public class Sword_Skill : Skill
         switch (swordType)
         {
             case SwordType.Bounce:
-                newSwordController.SetupBounce(true, amountOfBounce);
+                newSwordController.SetupBounce(true, amountOfBounce, bounceSpeed);
                 break;
             case SwordType.Pierce:
                 newSwordController.SetupPierce(amountOfPierce);
@@ -103,7 +106,7 @@ public class Sword_Skill : Skill
                 break;
             // Add other cases if needed
         }
-        newSwordController.SetupSword(finalDir, swordGravity, player);
+        newSwordController.SetupSword(finalDir, swordGravity, player, freezeTimeDuration, returnSpeed);
         player.AssignNewSword(newSword);
         DotsActive(false);
     }
