@@ -35,6 +35,7 @@ public class Player : Entity
     public PlayerCounterAttackState counterAttackState { get; private set; }
     public PlayerAimSwordState aimSwordState { get; private set; }
     public PlayerCatchSwordState catchSwordState { get; private set; }
+    public PlayerBlackHoleState blackHoleState { get; private set; }
     
     [SerializeField] private String idle = "Idle";
     [SerializeField] private String move = "Move"; 
@@ -65,6 +66,7 @@ public class Player : Entity
         
         aimSwordState = new PlayerAimSwordState(this, stateMachine, aimSword);
         catchSwordState = new PlayerCatchSwordState(this, stateMachine, catchSword);
+        blackHoleState = new PlayerBlackHoleState(this, stateMachine, jump);
     }
     protected override void Start()
     {
@@ -78,6 +80,11 @@ public class Player : Entity
         base.Update();
         stateMachine.currentState.Update();
         CheckForDashInput();
+    }
+
+    public void ExitBlackHole()
+    {
+        stateMachine.ChangeState(airState);
     }
 
     public void AssignNewSword(GameObject newSword)
