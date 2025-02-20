@@ -34,11 +34,15 @@ public class PlayerBlackHoleState : PlayerState
             {
                 if (player.skillManager.blackHole.CanUseSkill())
                 {
-                    Debug.Log("Cast black hole");
                     skillUsed = true;
                 }
             }
             rb.linearVelocity = new Vector2(0, -0.1f);
+        }
+
+        if (player.skillManager.blackHole.BlackHoleFinshed())
+        {
+            stateMachine.ChangeState(player.airState);
         }
     }
 
