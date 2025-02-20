@@ -32,14 +32,14 @@ public class Clone_Skill_Controller : MonoBehaviour
             spriteRenderer.color = new Color(1, 1, 1, spriteRenderer.color.a - colorLosingSpeed * Time.deltaTime);
         }
     }
-    public void SetupClone(Transform newTransform, float cloneDuration, bool canAttack)
+    public void SetupClone(Transform newTransform, float cloneDuration, bool canAttack, Vector3 offset)
     {
         if (canAttack)
         {
             anim.SetInteger(attackNumber, Random.Range(minAttackNumber, maxAttackNumber));
         }
         spriteRenderer.color = originalColor;
-        transform.position = newTransform.position;
+        transform.position = newTransform.position + offset;
         cloneTimer = cloneDuration;
         
         FaceClosestTarget();
