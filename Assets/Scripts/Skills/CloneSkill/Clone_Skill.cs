@@ -15,9 +15,9 @@ public class Clone_Skill : Skill
         clonePool = new GameObjectPooling(clonePrefab, clonePoolSize);
     }
 
-    public void CreateClone(Transform clonePosition)
+    public void CreateClone(Transform clonePosition, Vector3 offset)
     {
         GameObject clone = clonePool.Get();
-        clone.GetComponent<Clone_Skill_Controller>().SetupClone(clonePosition, cloneDuration, canAttack);
+        clone.GetComponent<Clone_Skill_Controller>().SetupClone(clonePosition, cloneDuration, canAttack, offset);
     }
 }
