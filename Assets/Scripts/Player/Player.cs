@@ -81,12 +81,7 @@ public class Player : Entity
         stateMachine.currentState.Update();
         CheckForDashInput();
     }
-
-    public void ExitBlackHole()
-    {
-        stateMachine.ChangeState(airState);
-    }
-
+    
     public void AssignNewSword(GameObject newSword)
     {
         sword = newSword;
