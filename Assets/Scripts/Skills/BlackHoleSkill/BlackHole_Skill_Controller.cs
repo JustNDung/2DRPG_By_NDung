@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -24,7 +25,10 @@ public class BlackHole_Skill_Controller : MonoBehaviour
     private float cloneAttackTimer;
 
     private List<Transform> targets = new List<Transform>();
-    private List<GameObject> hotkeys = new List<GameObject>(); 
+    private List<GameObject> hotkeys = new List<GameObject>();
+
+    [SerializeField] private float finishBlackHoleAbilityDelay = 0.5f;
+    public bool playerCanExitState { get; private set; }
     
     public void SetupBlackHole(float maxSize, float growSpeed, float shrinkSpeed, int amountOfAttacks, float cloneAttackCooldown)
     {
@@ -71,6 +75,8 @@ public class BlackHole_Skill_Controller : MonoBehaviour
         DestroyHotKeys();
         cloneAttackRelease = true;
         canCreateHotkey = false;
+        
+        PlayerManager.instance.player.MakeTransparent(true);
     }
 
     private void CloneAttackLogic()
@@ -94,10 +100,17 @@ public class BlackHole_Skill_Controller : MonoBehaviour
             amountOfAttacks--;
             if (amountOfAttacks <= 0)
             {
-                canShrink = true;
-                cloneAttackRelease = false;
+                Invoke("FinishBlackHoleAbility", finishBlackHoleAbilityDelay);
             }
         }
+    }
+
+    private void FinishBlackHoleAbility()
+    {
+        playerCanExitState = true;
+        PlayerManager.instance.player.ExitBlackHole();
+        canShrink = true;
+        cloneAttackRelease = false;
     }
 
     private void DestroyHotKeys()

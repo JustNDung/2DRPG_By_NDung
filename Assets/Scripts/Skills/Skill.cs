@@ -8,7 +8,7 @@ public class Skill : MonoBehaviour
 
     protected virtual void Start()
     {
-        player = PlayerManager.instance.player;
+        player = PlayerManager.instance.player; 
     }
 
     protected virtual void Update()
