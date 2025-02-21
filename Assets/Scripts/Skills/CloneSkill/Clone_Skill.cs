@@ -7,6 +7,7 @@ public class Clone_Skill : Skill
     [SerializeField] private int clonePoolSize;
     [SerializeField] private float cloneDuration;
     [SerializeField] private bool canAttack;
+    [SerializeField] private float attackCheckRadius = 25f;
     private GameObjectPooling clonePool;
 
     protected override void Start()
@@ -18,6 +19,9 @@ public class Clone_Skill : Skill
     public void CreateClone(Transform clonePosition, Vector3 offset)
     {
         GameObject clone = clonePool.Get();
-        clone.GetComponent<Clone_Skill_Controller>().SetupClone(clonePosition, cloneDuration, canAttack, offset);
+        clone.GetComponent<Clone_Skill_Controller>().SetupClone(clonePosition, cloneDuration
+            , canAttack, offset
+            , FindClosestEnemy(clone.transform, attackCheckRadius)
+        );
     }
 }
