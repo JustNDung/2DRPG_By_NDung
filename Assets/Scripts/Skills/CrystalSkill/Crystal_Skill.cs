@@ -12,6 +12,7 @@ public class Crystal_Skill : Skill
     [Header("Moving crystal")] 
     [SerializeField] private bool canMoveToEnemy;
     [SerializeField] private float moveSpeed;
+    [SerializeField] private float attackCheckRadius = 25f;
     
     public override void UseSkill()
     {
@@ -21,10 +22,16 @@ public class Crystal_Skill : Skill
         {
             currentCrystal = Instantiate(crystalPrefab, player.transform.position, Quaternion.identity);
             Crystal_Skill_Controller crystalSkillController = currentCrystal.GetComponent<Crystal_Skill_Controller>();
-            crystalSkillController.SetupCrystal(crystalDuration, canExplode, canMoveToEnemy, moveSpeed);
+            crystalSkillController.SetupCrystal(crystalDuration, canExplode, 
+                canMoveToEnemy, moveSpeed, FindClosestEnemy(currentCrystal.transform, attackCheckRadius)
+            );    
         }
         else
         {
+            if (canMoveToEnemy)
+            {
+                return;
+            }
             Vector2 playerPos = player.transform.position;
             
             player.transform.position = currentCrystal.transform.position;

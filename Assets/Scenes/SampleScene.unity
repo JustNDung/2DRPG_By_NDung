@@ -1477,6 +1477,7 @@ MonoBehaviour:
   clonePoolSize: 10
   cloneDuration: 1.5
   canAttack: 1
+  attackCheckRadius: 25
 --- !u!114 &492267876
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1545,8 +1546,9 @@ MonoBehaviour:
   crystalDuration: 1.5
   crystalPrefab: {fileID: 923223968338680336, guid: 91f4fb8a3f459024f8ff0ab81be64aef, type: 3}
   canExplode: 1
-  canMoveToEnemy: 0
-  moveSpeed: 0
+  canMoveToEnemy: 1
+  moveSpeed: 5
+  attackCheckRadius: 25
 --- !u!1 &501982500
 GameObject:
   m_ObjectHideFlags: 0

@@ -9,7 +9,6 @@ public class Clone_Skill_Controller : MonoBehaviour
     private Color originalColor;
     [SerializeField] private Transform attackCheck;
     [SerializeField] private float attackCheckRadius = 0.8f;
-    [SerializeField] private float attackDetectedRadius = 25f;
     private Transform closestEnemy;
 
     [SerializeField] private string attackNumber = "AttackNumber";
@@ -32,7 +31,7 @@ public class Clone_Skill_Controller : MonoBehaviour
             spriteRenderer.color = new Color(1, 1, 1, spriteRenderer.color.a - colorLosingSpeed * Time.deltaTime);
         }
     }
-    public void SetupClone(Transform newTransform, float cloneDuration, bool canAttack, Vector3 offset)
+    public void SetupClone(Transform newTransform, float cloneDuration, bool canAttack, Vector3 offset, Transform closestEnemy)
     {
         if (canAttack)
         {
@@ -41,6 +40,7 @@ public class Clone_Skill_Controller : MonoBehaviour
         spriteRenderer.color = originalColor;
         transform.position = newTransform.position + offset;
         cloneTimer = cloneDuration;
+        this.closestEnemy = closestEnemy;
         
         FaceClosestTarget();
     }
@@ -65,23 +65,6 @@ public class Clone_Skill_Controller : MonoBehaviour
 
     private void FaceClosestTarget()
     {
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, attackDetectedRadius);
-        
-        float closestDistance = Mathf.Infinity;
-
-        foreach (var hit in colliders)
-        {
-            if (hit.TryGetComponent(out Enemy enemy))
-            {
-                float distanceToEnemy = Vector2.Distance(transform.position, hit.transform.position);
-
-                if (distanceToEnemy < closestDistance)
-                {
-                    closestEnemy = hit.transform;
-                }
-            }
-        }
-
         if (closestEnemy != null)
         {
             if (transform.position.x > closestEnemy.position.x)
