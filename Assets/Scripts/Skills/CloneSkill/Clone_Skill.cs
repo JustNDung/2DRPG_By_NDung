@@ -1,13 +1,19 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class Clone_Skill : Skill
 {
+    [Header("Clone info")]
     [SerializeField] private GameObject clonePrefab;
     [SerializeField] private int clonePoolSize;
     [SerializeField] private float cloneDuration;
     [SerializeField] private bool canAttack;
     [SerializeField] private float attackCheckRadius = 25f;
+    [SerializeField] private float cloneDelay = 0.4f;
+    [SerializeField] private bool createCloneOnDashStart;
+    [SerializeField] private bool createCloneOnDashOver;
+    [SerializeField] private bool createCloneOnCounterAttack;
     private GameObjectPooling clonePool;
 
     protected override void Start()
@@ -23,5 +29,35 @@ public class Clone_Skill : Skill
             , canAttack, offset
             , FindClosestEnemy(clone.transform, attackCheckRadius)
         );
+    }
+    
+    public void CreateCloneOnDashStart()
+    {
+        if (createCloneOnDashStart)
+        {
+            CreateClone(player.transform, Vector3.zero);
+        }
+    }
+    
+    public void CreateCloneOnDashOver()
+    {
+        if (createCloneOnDashOver)
+        {
+            CreateClone(player.transform, Vector3.zero);
+        }
+    }
+    
+    public void CreateCloneOnCounterAttack(Transform clonePosition)
+    {
+        if (createCloneOnCounterAttack)
+        {
+            StartCoroutine(CreateCloneWithDelay(clonePosition, new Vector3(2 * player.facingDirection, 0)));
+        }
+    }
+
+    private IEnumerator CreateCloneWithDelay(Transform clonePosition, Vector3 offset)
+    {
+        yield return new WaitForSeconds(cloneDelay);
+        CreateClone(clonePosition, offset);
     }
 }

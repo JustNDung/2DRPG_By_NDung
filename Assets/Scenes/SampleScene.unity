@@ -1478,6 +1478,10 @@ MonoBehaviour:
   cloneDuration: 1.5
   canAttack: 1
   attackCheckRadius: 25
+  cloneDelay: 0.4
+  createCloneOnDashStart: 0
+  createCloneOnDashOver: 0
+  createCloneOnCounterAttack: 0
 --- !u!114 &492267876
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1545,12 +1549,13 @@ MonoBehaviour:
   cooldown: 0
   crystalDuration: 1.5
   crystalPrefab: {fileID: 923223968338680336, guid: 91f4fb8a3f459024f8ff0ab81be64aef, type: 3}
-  canExplode: 1
-  canMoveToEnemy: 1
+  cloneInsteadOfCrystal: 1
+  canExplode: 0
+  canMoveToEnemy: 0
   moveSpeed: 5
   attackCheckRadius: 25
   amountOfStacks: 3
-  canUseMultiStacks: 1
+  canUseMultiStacks: 0
   multiStackCooldown: 4
   useTimeWindow: 2.5
   crystalLeft:
