@@ -1,4 +1,3 @@
-using UnityEngine;
 
 public class EnemyStats : CharacterStats
 {
@@ -7,6 +6,7 @@ public class EnemyStats : CharacterStats
     protected override void Start()
     {
         base.Start();
+        enemy = GetComponent<Enemy>(); 
     }
 
     // Update is called once per frame
@@ -23,6 +23,7 @@ public class EnemyStats : CharacterStats
 
     protected override void Die()
     {
-        Debug.Log("Enemy died");
+        base.Die();
+        enemy.Die();
     }
 }
