@@ -2,13 +2,13 @@ using UnityEngine;
 
 public class CharacterStats : MonoBehaviour
 {
-    public float damage;
-    public float maxHp;
+    public Stat damage;
+    public Stat maxHp;
     
-    private float currentHp;
+    [SerializeField] private float currentHp;
     void Start()
     {
-        currentHp = maxHp;
+        currentHp = maxHp.GetBaseValue();
     }
 
     // Update is called once per frame
