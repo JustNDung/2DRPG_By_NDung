@@ -14,8 +14,12 @@ public class Clone_Skill : Skill
     [SerializeField] private bool createCloneOnDashStart;
     [SerializeField] private bool createCloneOnDashOver;
     [SerializeField] private bool createCloneOnCounterAttack;
+    [Header("Clone duplication")]
     [SerializeField] private bool canDuplicateClone;
     [SerializeField] private float createCloneRate = 35f;
+    [Header("Crystal instead of clone")]
+    public bool crystalInsteadOfClone;
+    
     private GameObjectPooling clonePool;
 
     protected override void Start()
@@ -26,6 +30,11 @@ public class Clone_Skill : Skill
 
     public void CreateClone(Transform clonePosition, Vector3 offset)
     {
+        if (crystalInsteadOfClone)
+        {
+            SkillManager.instance.crystal.CreateCrystal();
+            return;
+        }
         GameObject clone = clonePool.Get();
         clone.GetComponent<Clone_Skill_Controller>().SetupClone(clonePosition, cloneDuration
             , canAttack, offset

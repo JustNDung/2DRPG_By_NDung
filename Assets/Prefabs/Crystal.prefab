@@ -162,3 +162,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   explode: Explode
   growSpeed: 5
+  distanceFromTargetToCrystal: 1
+  maxScale: {x: 3, y: 3}
+  whatIsEnemy:
+    serializedVersion: 2
+    m_Bits: 128
