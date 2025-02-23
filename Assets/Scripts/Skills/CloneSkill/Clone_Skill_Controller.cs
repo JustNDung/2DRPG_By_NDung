@@ -65,7 +65,7 @@ public class Clone_Skill_Controller : MonoBehaviour
         {
             if (detectedObject.TryGetComponent(out Enemy enemy))
             {
-                enemy.Damage();
+                enemy.DamageEffect();
                 if (canDuplicateClone)
                 {
                     if (Random.Range(0, 100) < createCloneRate)

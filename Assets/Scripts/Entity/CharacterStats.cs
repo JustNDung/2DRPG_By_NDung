@@ -4,11 +4,18 @@ public class CharacterStats : MonoBehaviour
 {
     public Stat damage;
     public Stat maxHp;
+    public Stat strength;
     
     [SerializeField] private float currentHp;
-    void Start()
+    protected virtual void Start()
     {
         currentHp = maxHp.GetBaseValue();
+    }
+
+    public virtual void DoDamage(CharacterStats target)
+    {
+        float totalDamage = damage.GetBaseValue() + strength.GetBaseValue();
+        target.TakeDamage(totalDamage);
     }
 
     // Update is called once per frame
@@ -17,7 +24,7 @@ public class CharacterStats : MonoBehaviour
         
     }
     
-    public void TakeDamage(float damage)
+    public virtual void TakeDamage(float damage)
     {
         currentHp -= damage;
         
@@ -25,9 +32,12 @@ public class CharacterStats : MonoBehaviour
         {
             Die();
         }
+        
+        Debug.Log("Take damage: " + damage);
     }
     
-    private void Die()
+    protected virtual void Die()
     {
+        
     }
 }
