@@ -9,6 +9,8 @@ public class Enemy_Skeleton : Enemy
     public SkeletonBattleState battleState { get; private set; }
     public SkeletonAttackState attackState { get; private set; }    
     public SkeletonStunnedState stunnedState { get; private set; }
+    public SkeletonDeadState deadState { get; private set; }
+    
     [SerializeField] private string idle = "Idle";
     [SerializeField] private string move = "Move";
     [SerializeField] private string attack = "Attack";
@@ -24,6 +26,7 @@ public class Enemy_Skeleton : Enemy
         battleState = new SkeletonBattleState(stateMachine, this, move, this);
         attackState = new SkeletonAttackState(stateMachine, this, attack, this);
         stunnedState = new SkeletonStunnedState(stateMachine, this, stunned, this);
+        deadState = new SkeletonDeadState(stateMachine, this, idle, this);
     }
 
     protected override void Start()
@@ -36,12 +39,6 @@ public class Enemy_Skeleton : Enemy
     {
         base.Update();
         velocity = rb.linearVelocity;
-
-        /*
-        if (Input.GetKeyDown(KeyCode.U)) {
-            stateMachine.ChangeState(stunnedState);
-        }
-        */
     }
 
     public override bool CanBeStunned()
@@ -51,5 +48,11 @@ public class Enemy_Skeleton : Enemy
             return true;
         }
         return false;
+    }
+
+    public override void Die()
+    {
+        base.Die();
+        stateMachine.ChangeState(deadState);
     }
 }

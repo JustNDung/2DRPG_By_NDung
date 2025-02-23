@@ -36,6 +36,7 @@ public class Player : Entity
     public PlayerAimSwordState aimSwordState { get; private set; }
     public PlayerCatchSwordState catchSwordState { get; private set; }
     public PlayerBlackHoleState blackHoleState { get; private set; }
+    public PlayerDeadState deadState { get; private set; }  
     
     [SerializeField] private String idle = "Idle";
     [SerializeField] private String move = "Move"; 
@@ -46,6 +47,7 @@ public class Player : Entity
     [SerializeField] private String counterAttack = "CounterAttack";
     [SerializeField] private String aimSword = "AimSword";
     [SerializeField] private String catchSword = "CatchSword";
+    [SerializeField] private String dead = "Dead";
 
     #endregion
     protected override void Awake()
@@ -67,6 +69,7 @@ public class Player : Entity
         aimSwordState = new PlayerAimSwordState(this, stateMachine, aimSword);
         catchSwordState = new PlayerCatchSwordState(this, stateMachine, catchSword);
         blackHoleState = new PlayerBlackHoleState(this, stateMachine, jump);
+        deadState = new PlayerDeadState(this, stateMachine, dead);
     }
     protected override void Start()
     {
@@ -115,5 +118,11 @@ public class Player : Entity
             }
             stateMachine.ChangeState(dashState);
         }
+    }
+
+    public override void Die()
+    {
+        base.Die();
+        stateMachine.ChangeState(deadState);
     }
 }

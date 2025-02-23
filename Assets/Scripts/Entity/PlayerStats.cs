@@ -25,6 +25,7 @@ public class PlayerStats : CharacterStats
 
     protected override void Die()
     {
-        Debug.Log("Player died");
+        base.Die();
+        player.Die();
     }
 }

@@ -32,8 +32,6 @@ public class CharacterStats : MonoBehaviour
         {
             Die();
         }
-        
-        Debug.Log("Take damage: " + damage);
     }
     
     protected virtual void Die()
