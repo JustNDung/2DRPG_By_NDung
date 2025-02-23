@@ -10,6 +10,10 @@ public class Clone_Skill_Controller : MonoBehaviour
     [SerializeField] private Transform attackCheck;
     [SerializeField] private float attackCheckRadius = 0.8f;
     private Transform closestEnemy;
+    
+    private bool canDuplicateClone;
+    private int facingDirection = 1;
+    private float createCloneRate;
 
     [SerializeField] private string attackNumber = "AttackNumber";
     [SerializeField] private int minAttackNumber = 1;
@@ -31,7 +35,8 @@ public class Clone_Skill_Controller : MonoBehaviour
             spriteRenderer.color = new Color(1, 1, 1, spriteRenderer.color.a - colorLosingSpeed * Time.deltaTime);
         }
     }
-    public void SetupClone(Transform newTransform, float cloneDuration, bool canAttack, Vector3 offset, Transform closestEnemy)
+    public void SetupClone(Transform newTransform, float cloneDuration, bool canAttack
+        , Vector3 offset, Transform closestEnemy, bool canDuplicateClone, float createClonerate)
     {
         if (canAttack)
         {
@@ -41,6 +46,8 @@ public class Clone_Skill_Controller : MonoBehaviour
         transform.position = newTransform.position + offset;
         cloneTimer = cloneDuration;
         this.closestEnemy = closestEnemy;
+        this.canDuplicateClone = canDuplicateClone;
+        this.createCloneRate = createClonerate;
         
         FaceClosestTarget();
     }
@@ -59,6 +66,13 @@ public class Clone_Skill_Controller : MonoBehaviour
             if (detectedObject.TryGetComponent(out Enemy enemy))
             {
                 enemy.Damage();
+                if (canDuplicateClone)
+                {
+                    if (Random.Range(0, 100) < createCloneRate)
+                    {
+                        SkillManager.instance.clone.CreateClone(detectedObject.transform, new Vector3(.5f * facingDirection, 0));
+                    }
+                }
             }
         }
     }
@@ -69,6 +83,7 @@ public class Clone_Skill_Controller : MonoBehaviour
         {
             if (transform.position.x > closestEnemy.position.x)
             {
+                facingDirection = -1;
                 transform.Rotate(0, 180, 0);
             }
         }
