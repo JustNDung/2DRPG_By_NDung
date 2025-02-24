@@ -12,13 +12,18 @@ public class CharacterStats : MonoBehaviour
     public Stat maxHp;
     public Stat armor;
     public Stat evasion;
-    
+
+    [Header("Offensive stats")] 
+    [SerializeField] private float defaultCritChance = 150;
     public Stat damage;
+    public Stat critChance;
+    public Stat critPower;
     
     [SerializeField] private float currentHp;
     protected virtual void Start()
     {
-        currentHp = maxHp.GetBaseValue();
+        critChance.SetDefaultValue(defaultCritChance);
+        currentHp = maxHp.GetValue();
     }
 
     public virtual void DoDamage(CharacterStats target)
@@ -28,21 +33,28 @@ public class CharacterStats : MonoBehaviour
             return;
         }
 
-        float totalDamage = damage.GetBaseValue() + strength.GetBaseValue();
-        totalDamage = CalculateTotalDamage(target, totalDamage);
+        float totalDamage = damage.GetValue() + strength.GetValue();
+        
+        totalDamage = CalculateTotalDamageWithArmor(target, totalDamage);
+        // Trừ giáp trước rồi mới nhân thêm % chí mạng nếu có.
+        if (CanCrit())
+        {
+            totalDamage = CalculateTotalDamageWithCritical(totalDamage);
+        }
         target.TakeDamage(totalDamage);
+        
     }
 
-    private float CalculateTotalDamage(CharacterStats target, float totalDamage)
+    private float CalculateTotalDamageWithArmor(CharacterStats target, float totalDamage)
     {
-        totalDamage -= target.armor.GetBaseValue();
+        totalDamage -= target.armor.GetValue();
         totalDamage = Mathf.Clamp(totalDamage, 0, float.MaxValue);
         return totalDamage;
     }
 
     private bool CanAvoidAttack(CharacterStats target)
     {
-        float totalEvasion = target.evasion.GetBaseValue() + target.agility.GetBaseValue();
+        float totalEvasion = target.evasion.GetValue() + target.agility.GetValue();
 
         if (Random.Range(0, 100) < totalEvasion)
         {
@@ -72,5 +84,25 @@ public class CharacterStats : MonoBehaviour
     protected virtual void Die()
     {
         
+    }
+
+    private bool CanCrit()
+    {
+        float totalCritChance = critChance.GetValue() + agility.GetValue();
+        
+        if (Random.Range(0, 100) < totalCritChance)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    private float CalculateTotalDamageWithCritical(float damage)
+    {
+        float totalCritPower = (critPower.GetValue() + strength.GetValue()) * .01f;
+        float totalDamage = damage * totalCritPower;
+
+        return totalDamage;
     }
 }
