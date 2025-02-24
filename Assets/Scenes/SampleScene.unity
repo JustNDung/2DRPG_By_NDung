@@ -1356,6 +1356,22 @@ MonoBehaviour:
   evasion:
     baseValue: 0
     modifiers: []
+  magicResistance:
+    baseValue: 0
+    modifiers: []
+  magicResistanceIncreasePerIntelligence: 3
+  fireDamage:
+    baseValue: 0
+    modifiers: []
+  iceDamage:
+    baseValue: 0
+    modifiers: []
+  lightningDamage:
+    baseValue: 0
+    modifiers: []
+  isIgnited: 0
+  isChilled: 0
+  isShocked: 0
   defaultCritChance: 150
   damage:
     baseValue: 5
@@ -2144,6 +2160,22 @@ MonoBehaviour:
   evasion:
     baseValue: 0
     modifiers: []
+  magicResistance:
+    baseValue: 0
+    modifiers: []
+  magicResistanceIncreasePerIntelligence: 3
+  fireDamage:
+    baseValue: 5
+    modifiers: []
+  iceDamage:
+    baseValue: 5
+    modifiers: []
+  lightningDamage:
+    baseValue: 5
+    modifiers: []
+  isIgnited: 0
+  isChilled: 0
+  isShocked: 0
   defaultCritChance: 150
   damage:
     baseValue: 10
