@@ -1335,14 +1335,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d037749799ae32647a9609f087241c3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage:
-    baseValue: 5
+  strength:
+    baseValue: 0
+    modifiers: []
+  agility:
+    baseValue: 0
+    modifiers: []
+  intelligence:
+    baseValue: 0
+    modifiers: []
+  vitality:
+    baseValue: 0
     modifiers: []
   maxHp:
     baseValue: 150
     modifiers: []
-  strength:
+  armor:
     baseValue: 0
+    modifiers: []
+  evasion:
+    baseValue: 0
+    modifiers: []
+  damage:
+    baseValue: 5
     modifiers: []
   currentHp: 0
 --- !u!1 &481223077
@@ -2101,14 +2116,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96bd1570be6a7a7458946e3bc8587284, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage:
-    baseValue: 10
+  strength:
+    baseValue: 0
+    modifiers: []
+  agility:
+    baseValue: 0
+    modifiers: []
+  intelligence:
+    baseValue: 0
+    modifiers: []
+  vitality:
+    baseValue: 0
     modifiers: []
   maxHp:
     baseValue: 1
     modifiers: []
-  strength:
+  armor:
     baseValue: 0
+    modifiers: []
+  evasion:
+    baseValue: 0
+    modifiers: []
+  damage:
+    baseValue: 10
     modifiers: []
   currentHp: 0
 --- !u!70 &714999941
