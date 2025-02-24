@@ -10,12 +10,6 @@ public class PlayerStats : CharacterStats
         
         player = GetComponent<Player>();
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
     
     public override void TakeDamage(float damage)
     {

@@ -1361,7 +1361,7 @@ MonoBehaviour:
     modifiers: []
   magicResistanceIncreasePerIntelligence: 3
   fireDamage:
-    baseValue: 0
+    baseValue: 12
     modifiers: []
   iceDamage:
     baseValue: 0
@@ -1372,6 +1372,9 @@ MonoBehaviour:
   isIgnited: 0
   isChilled: 0
   isShocked: 0
+  spellDuration: 2
+  ignitedDamageCooldown: 0.3
+  ignitedDamage: 0
   defaultCritChance: 150
   damage:
     baseValue: 5
@@ -1382,6 +1385,8 @@ MonoBehaviour:
   critPower:
     baseValue: 0
     modifiers: []
+  evasionBoostWhenShocked: 20
+  armorReductionWhenChilled: 0.8
   currentHp: 0
 --- !u!1 &481223077
 GameObject:
@@ -2152,7 +2157,7 @@ MonoBehaviour:
     baseValue: 0
     modifiers: []
   maxHp:
-    baseValue: 1
+    baseValue: 50
     modifiers: []
   armor:
     baseValue: 0
@@ -2165,17 +2170,20 @@ MonoBehaviour:
     modifiers: []
   magicResistanceIncreasePerIntelligence: 3
   fireDamage:
-    baseValue: 5
+    baseValue: 10
     modifiers: []
   iceDamage:
-    baseValue: 5
+    baseValue: 0
     modifiers: []
   lightningDamage:
-    baseValue: 5
+    baseValue: 0
     modifiers: []
   isIgnited: 0
   isChilled: 0
   isShocked: 0
+  spellDuration: 2
+  ignitedDamageCooldown: 0.3
+  ignitedDamage: 0
   defaultCritChance: 150
   damage:
     baseValue: 10
@@ -2186,6 +2194,8 @@ MonoBehaviour:
   critPower:
     baseValue: 150
     modifiers: []
+  evasionBoostWhenShocked: 20
+  armorReductionWhenChilled: 0.8
   currentHp: 0
 --- !u!70 &714999941
 CapsuleCollider2D:

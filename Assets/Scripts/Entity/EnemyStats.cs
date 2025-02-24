@@ -8,12 +8,6 @@ public class EnemyStats : CharacterStats
         base.Start();
         enemy = GetComponent<Enemy>(); 
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
     
     public override void TakeDamage(float damage)
     {

@@ -21,21 +21,68 @@ public class CharacterStats : MonoBehaviour
     public Stat lightningDamage;
     
 
-    public bool isIgnited;
-    public bool isChilled;
-    public bool isShocked;
+    public bool isIgnited; // does damage over time
+    public bool isChilled; // reduce armor by 20%
+    public bool isShocked; // reduce accuracy by 20%
+    [SerializeField] private float spellDuration =  2f;
 
+    private float ignitedTimer;
+    [SerializeField] private float ignitedDamageCooldown = 0.3f;
+    private float ignitedDamageTimer;
+    [SerializeField] private float ignitedDamage;
+
+    private float chilledTimer;
+    private float shockedTimer;
+    
     [Header("Offensive stats")] 
     [SerializeField] private float defaultCritChance = 150;
     public Stat damage;
     public Stat critChance;
     public Stat critPower;
     
+    [SerializeField] private float evasionBoostWhenShocked = 20;
+    [SerializeField] private float armorReductionWhenChilled = 0.8f;
+    
     [SerializeField] private float currentHp;
     protected virtual void Start()
     {
         critChance.SetDefaultValue(defaultCritChance);
         currentHp = maxHp.GetValue();
+    }
+
+    protected virtual void Update()
+    {
+        ignitedTimer -= Time.deltaTime;
+        chilledTimer -= Time.deltaTime;
+        shockedTimer -= Time.deltaTime;
+        ignitedDamageTimer -= Time.deltaTime;
+
+        if (ignitedTimer < 0)
+        {
+            isIgnited = false;
+        }
+        
+        if (chilledTimer < 0)
+        {
+            isChilled = false;
+        }
+        
+        if (shockedTimer < 0)
+        {
+            isShocked = false;
+        }
+        
+        if (ignitedDamageTimer < 0 && isIgnited)
+        {
+            Debug.Log("Take burn damage " + ignitedDamage);
+            currentHp -= ignitedDamage;
+            if (currentHp < 0)
+            {
+                Die();
+            }
+            ignitedDamageTimer = ignitedDamageCooldown;
+            // Burn damage over time (0.3s)
+        }
     }
 
     public virtual void DoDamage(CharacterStats target)
@@ -65,6 +112,7 @@ public class CharacterStats : MonoBehaviour
         float totalMagicDamage = _fireDamage + _iceDamage + _lightningDamage + intelligence.GetValue();
 
         totalMagicDamage = CalculateTotalMagicDamage(target, totalMagicDamage);
+        
         target.TakeDamage(totalMagicDamage);
 
         if (Mathf.Max(_fireDamage, _iceDamage, _lightningDamage) <= 0)
@@ -100,6 +148,14 @@ public class CharacterStats : MonoBehaviour
                 return;
             }
         }
+
+        if (canApplyIgnite)
+        {
+            target.SetupIgniteDamage(_fireDamage * .2f);
+            // Apply 20% of fire damage per 0.3 second.
+        }
+        
+        target.ApplyAilments(canApplyIgnite, canApplyChill, canApplyShock);
     }
 
     private float CalculateTotalMagicDamage(CharacterStats target, float totalMagicDamage)
@@ -116,23 +172,55 @@ public class CharacterStats : MonoBehaviour
         {
             return;
         }
+
+        if (ignite)
+        {
+            isIgnited = ignite;
+            ignitedTimer = spellDuration;
+        }
         
-        isIgnited = ignite;
-        isChilled = chill;
-        isShocked = shock;
+        if (chill)
+        {
+            isChilled = chill;
+            chilledTimer = spellDuration;
+        }
+        
+        if (shock)
+        {
+            isShocked = shock;
+            shockedTimer = spellDuration;
+        }
+        
+    }
+    
+    public void SetupIgniteDamage(float damage)
+    {
+        ignitedDamage = damage;
     }
 
     private float CalculateTotalDamageWithArmor(CharacterStats target, float totalDamage)
     {
-        totalDamage -= target.armor.GetValue();
+        if (target.isChilled)
+        {
+            totalDamage -= target.armor.GetValue() * armorReductionWhenChilled;
+        }
+        else
+        {
+            totalDamage -= target.armor.GetValue();
+        }
         totalDamage = Mathf.Clamp(totalDamage, 0, float.MaxValue);
         return totalDamage;
     }
-
+    
     private bool CanAvoidAttack(CharacterStats target)
     {
         float totalEvasion = target.evasion.GetValue() + target.agility.GetValue();
 
+        if (isShocked)
+        {
+            totalEvasion += evasionBoostWhenShocked;
+        }
+        
         if (Random.Range(0, 100) < totalEvasion)
         {
             Debug.Log("Missed");
@@ -140,12 +228,6 @@ public class CharacterStats : MonoBehaviour
         }
 
         return false;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
     
     public virtual void TakeDamage(float damage)
