@@ -12,6 +12,18 @@ public class CharacterStats : MonoBehaviour
     public Stat maxHp;
     public Stat armor;
     public Stat evasion;
+    public Stat magicResistance;
+
+    [Header("Magic stats")]
+    [SerializeField] private float magicResistanceIncreasePerIntelligence = 3;
+    public Stat fireDamage;
+    public Stat iceDamage;
+    public Stat lightningDamage;
+    
+
+    public bool isIgnited;
+    public bool isChilled;
+    public bool isShocked;
 
     [Header("Offensive stats")] 
     [SerializeField] private float defaultCritChance = 150;
@@ -41,8 +53,37 @@ public class CharacterStats : MonoBehaviour
         {
             totalDamage = CalculateTotalDamageWithCritical(totalDamage);
         }
-        target.TakeDamage(totalDamage);
+        //target.TakeDamage(totalDamage);
+        DoMagicalDamage(target);
         
+    }
+    
+    public virtual void DoMagicalDamage(CharacterStats target)
+    {
+        float totalMagicDamage = fireDamage.GetValue() + iceDamage.GetValue() + lightningDamage.GetValue() + intelligence.GetValue();
+
+        totalMagicDamage = CalculateTotalMagicDamage(target, totalMagicDamage);
+        target.TakeDamage(totalMagicDamage);
+    }
+
+    private float CalculateTotalMagicDamage(CharacterStats target, float totalMagicDamage)
+    {
+        totalMagicDamage -= target.magicResistance.GetValue() 
+                            + (target.intelligence.GetValue() * magicResistanceIncreasePerIntelligence);
+        totalMagicDamage = Mathf.Clamp(totalMagicDamage, 0, float.MaxValue);
+        return totalMagicDamage;
+    }
+
+    public void ApplyAilments(bool ignite, bool chill, bool shock)
+    {
+        if (isIgnited || isChilled || isShocked)
+        {
+            return;
+        }
+        
+        isIgnited = ignite;
+        isChilled = chill;
+        isShocked = shock;
     }
 
     private float CalculateTotalDamageWithArmor(CharacterStats target, float totalDamage)
