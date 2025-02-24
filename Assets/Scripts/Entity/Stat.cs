@@ -7,7 +7,7 @@ public class Stat
     [SerializeField] private float baseValue;
     public List<float> modifiers;
     
-    public float GetBaseValue()
+    public float GetValue()
     {
         float finalValue = baseValue;
         
@@ -17,6 +17,11 @@ public class Stat
         }
         
         return finalValue;
+    }
+    
+    public void SetDefaultValue(float value)
+    {
+        baseValue = value;
     }
     
     public void AddModifier(float modifier)

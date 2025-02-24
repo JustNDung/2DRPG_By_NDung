@@ -1356,8 +1356,15 @@ MonoBehaviour:
   evasion:
     baseValue: 0
     modifiers: []
+  defaultCritChance: 150
   damage:
     baseValue: 5
+    modifiers: []
+  critChance:
+    baseValue: 0
+    modifiers: []
+  critPower:
+    baseValue: 0
     modifiers: []
   currentHp: 0
 --- !u!1 &481223077
@@ -2137,8 +2144,15 @@ MonoBehaviour:
   evasion:
     baseValue: 0
     modifiers: []
+  defaultCritChance: 150
   damage:
     baseValue: 10
+    modifiers: []
+  critChance:
+    baseValue: 99
+    modifiers: []
+  critPower:
+    baseValue: 150
     modifiers: []
   currentHp: 0
 --- !u!70 &714999941
