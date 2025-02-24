@@ -55,15 +55,51 @@ public class CharacterStats : MonoBehaviour
         }
         //target.TakeDamage(totalDamage);
         DoMagicalDamage(target);
-        
     }
     
     public virtual void DoMagicalDamage(CharacterStats target)
     {
-        float totalMagicDamage = fireDamage.GetValue() + iceDamage.GetValue() + lightningDamage.GetValue() + intelligence.GetValue();
+        float _fireDamage = fireDamage.GetValue();
+        float _iceDamage = iceDamage.GetValue();
+        float _lightningDamage = lightningDamage.GetValue();
+        float totalMagicDamage = _fireDamage + _iceDamage + _lightningDamage + intelligence.GetValue();
 
         totalMagicDamage = CalculateTotalMagicDamage(target, totalMagicDamage);
         target.TakeDamage(totalMagicDamage);
+
+        if (Mathf.Max(_fireDamage, _iceDamage, _lightningDamage) <= 0)
+        {
+            return;
+        } 
+        
+        bool canApplyIgnite = _fireDamage > _iceDamage && _fireDamage > _lightningDamage;
+        bool canApplyChill = _iceDamage > _fireDamage && _iceDamage > _lightningDamage;
+        bool canApplyShock = _lightningDamage > _fireDamage && _lightningDamage > _iceDamage;
+        
+        while (!canApplyIgnite && !canApplyChill && !canApplyShock)
+        {
+            if (Random.value < .5f && _fireDamage > 0)
+            {
+                canApplyIgnite = true;
+                target.ApplyAilments(canApplyIgnite, canApplyChill, canApplyShock);
+                Debug.Log("Ignited");
+                return;
+            }
+            if (Random.value < .5f && _iceDamage > 0)
+            {
+                canApplyChill = true;
+                target.ApplyAilments(canApplyIgnite, canApplyChill, canApplyShock);
+                Debug.Log("Chilled");
+                return;
+            }
+            if (Random.value < .5f && _lightningDamage > 0)
+            {
+                canApplyShock = true;
+                target.ApplyAilments(canApplyIgnite, canApplyChill, canApplyShock);
+                Debug.Log("Shocked");
+                return;
+            }
+        }
     }
 
     private float CalculateTotalMagicDamage(CharacterStats target, float totalMagicDamage)
