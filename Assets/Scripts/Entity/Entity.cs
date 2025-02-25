@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class Entity : MonoBehaviour
 {
+    public System.Action onFlipped;
     #region Components
     public Animator anim { get; private set; }
     public Rigidbody2D rb { get; private set; }
@@ -92,6 +93,11 @@ public class Entity : MonoBehaviour
         facingDirection *= -1;
         facingRight = !facingRight;
         transform.Rotate(0.0f, 180.0f, 0.0f);
+
+        if (onFlipped != null)
+        {
+            onFlipped();
+        }
     }
 
     public virtual void FlipController(float x) {
