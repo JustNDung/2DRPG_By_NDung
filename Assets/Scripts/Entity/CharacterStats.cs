@@ -18,6 +18,7 @@ public class CharacterStats : MonoBehaviour
 
     [Header("Magic stats")]
     [SerializeField] private float magicResistanceIncreasePerIntelligence = 3;
+    [SerializeField] private float slowPercentage = 0.2f;
     public Stat fireDamage;
     public Stat iceDamage;
     public Stat lightningDamage;
@@ -189,6 +190,7 @@ public class CharacterStats : MonoBehaviour
         {
             isChilled = chill;
             chilledTimer = spellDuration;
+            GetComponent<Entity>().SlowEntityBy(slowPercentage, spellDuration);
             entityFX.ChillFxFor(spellDuration);
         }
         

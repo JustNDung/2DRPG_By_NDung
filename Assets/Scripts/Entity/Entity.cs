@@ -48,6 +48,16 @@ public class Entity : MonoBehaviour
     {
         
     }
+    
+    public virtual void SlowEntityBy(float slowPercentage, float duration)
+    {
+        
+    }
+    
+    protected virtual void ReturnDefaultSpeed()
+    {
+        anim.speed = 1;
+    }
 
     public virtual void DamageEffect()
     {
