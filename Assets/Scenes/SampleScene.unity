@@ -1397,8 +1397,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5f1b0dabfb69fe46bb19204fbaa76f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flashDuration: 0.15
+  flashDuration: 0.2
   hitMaterial: {fileID: 2100000, guid: ee7b3b18d8f6389429678795ac6f6c49, type: 2}
+  chillColors:
+  - {r: 0.39937097, g: 0.7564172, b: 1, a: 1}
+  - {r: 0.6194968, g: 0.8458091, b: 1, a: 1}
+  igniteColors:
+  - {r: 1, g: 0.36163503, b: 0.36163503, a: 1}
+  - {r: 0.9748427, g: 0.6897471, b: 0.6897471, a: 1}
+  shockColors:
+  - {r: 1, g: 0.8901961, b: 0.38431373, a: 1}
+  - {r: 0.94509804, g: 0.8745098, b: 0.54901963, a: 1}
+  igniteRepeatRate: 0.3
 --- !u!114 &322639807
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1438,10 +1448,10 @@ MonoBehaviour:
     modifiers: []
   magicResistanceIncreasePerIntelligence: 3
   fireDamage:
-    baseValue: 12
+    baseValue: 2
     modifiers: []
   iceDamage:
-    baseValue: 0
+    baseValue: 3
     modifiers: []
   lightningDamage:
     baseValue: 0
@@ -1449,7 +1459,7 @@ MonoBehaviour:
   isIgnited: 0
   isChilled: 0
   isShocked: 0
-  spellDuration: 2
+  spellDuration: 4
   ignitedDamageCooldown: 0.3
   ignitedDamage: 0
   defaultCritChance: 150
@@ -2321,6 +2331,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   flashDuration: 0.2
   hitMaterial: {fileID: 2100000, guid: ee7b3b18d8f6389429678795ac6f6c49, type: 2}
+  chillColors:
+  - {r: 0.39937097, g: 0.7564172, b: 1, a: 1}
+  - {r: 0.6194968, g: 0.8458091, b: 1, a: 1}
+  igniteColors:
+  - {r: 1, g: 0.36163503, b: 0.36163503, a: 1}
+  - {r: 0.9748427, g: 0.6897471, b: 0.6897471, a: 1}
+  shockColors:
+  - {r: 1, g: 0.8901961, b: 0.38431373, a: 1}
+  - {r: 0.94509804, g: 0.8745098, b: 0.54901963, a: 1}
+  igniteRepeatRate: 0.3
 --- !u!114 &714999940
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2360,7 +2380,7 @@ MonoBehaviour:
     modifiers: []
   magicResistanceIncreasePerIntelligence: 3
   fireDamage:
-    baseValue: 10
+    baseValue: 0
     modifiers: []
   iceDamage:
     baseValue: 0
