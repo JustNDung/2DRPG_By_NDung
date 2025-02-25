@@ -19,6 +19,10 @@ public class CharacterStats : MonoBehaviour
     [Header("Magic stats")]
     [SerializeField] private float magicResistanceIncreasePerIntelligence = 3;
     [SerializeField] private float slowPercentage = 0.2f;
+    [SerializeField] private float shockedDetectedRadius = 25f;
+    [SerializeField] private GameObject shockStrikePrefab;
+    [SerializeField] private float shockDamage;
+    
     public Stat fireDamage;
     public Stat iceDamage;
     public Stat lightningDamage;
@@ -160,6 +164,11 @@ public class CharacterStats : MonoBehaviour
             target.SetupIgniteDamage(_fireDamage * .2f);
             // Apply 20% of fire damage per 0.3 second.
         }
+
+        if (canApplyShock)
+        {
+            target.SetupShockStrikeDamage(_lightningDamage * .1f);
+        }
         
         target.ApplyAilments(canApplyIgnite, canApplyChill, canApplyShock);
     }
@@ -174,19 +183,18 @@ public class CharacterStats : MonoBehaviour
 
     public void ApplyAilments(bool ignite, bool chill, bool shock)
     {
-        if (isIgnited || isChilled || isShocked)
-        {
-            return;
-        }
+        bool canApplyIgnite = !isIgnited && !isChilled && !isShocked;
+        bool canApplyChill = !isIgnited && !isChilled && !isShocked;
+        bool canApplyShock = !isIgnited && !isChilled;
 
-        if (ignite)
+        if (ignite && canApplyIgnite)
         {
             isIgnited = ignite;
             ignitedTimer = spellDuration;
             entityFX.IgniteFxFor(spellDuration); 
         }
         
-        if (chill)
+        if (chill && canApplyChill)
         {
             isChilled = chill;
             chilledTimer = spellDuration;
@@ -194,18 +202,80 @@ public class CharacterStats : MonoBehaviour
             entityFX.ChillFxFor(spellDuration);
         }
         
-        if (shock)
+        if (shock && canApplyShock)
         {
-            isShocked = shock;
-            shockedTimer = spellDuration;
-            entityFX.ShockFxFor(spellDuration);
+            if (!isShocked)
+            {
+                ApplyShock(shock);
+            }
+            else
+            {
+                if (GetComponent<Player>() != null)
+                {
+                    return;
+                }
+
+                HitNearestTargetWithShockStrike();
+            }
         }
         
     }
-    
+
+    public void ApplyShock(bool shock)
+    {
+        if (isShocked)
+        {
+            return;
+        }
+        
+        isShocked = shock;
+        shockedTimer = spellDuration;
+        entityFX.ShockFxFor(spellDuration);
+    }
+
+    private void HitNearestTargetWithShockStrike()
+    {
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, shockedDetectedRadius);
+        
+        float closestDistance = Mathf.Infinity;
+        Transform closestEnemy = null;
+
+        foreach (var hit in colliders)
+        {
+            if (hit.TryGetComponent(out Enemy enemy) && Vector2.Distance(transform.position, hit.transform.position) > 1)
+            {
+                float distanceToEnemy = Vector2.Distance(transform.position, hit.transform.position);
+
+                if (distanceToEnemy < closestDistance)
+                {
+                    closestDistance = distanceToEnemy;
+                    closestEnemy = hit.transform;
+                }
+            }
+
+            if (closestEnemy == null)
+            {
+                closestEnemy = transform;
+            }
+        }
+
+        if (closestEnemy != null)
+        {
+            GameObject newShockStrike = Instantiate(shockStrikePrefab, transform.position, Quaternion.identity);
+            newShockStrike.GetComponent<ShockStrike_Controller>().SetupThunder(shockDamage
+                , closestEnemy.GetComponent<CharacterStats>()
+            );
+        }
+    }
+
     public void SetupIgniteDamage(float damage)
     {
         ignitedDamage = damage;
+    }
+
+    public void SetupShockStrikeDamage(float damage)
+    {
+        shockDamage = damage;
     }
 
     private float CalculateTotalDamageWithArmor(CharacterStats target, float totalDamage)

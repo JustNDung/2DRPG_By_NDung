@@ -121,7 +121,7 @@ GameObject:
   - component: {fileID: 3529232340943843642}
   - component: {fileID: 4678801740719068233}
   m_Layer: 0
-  m_Name: ThunderStrike
+  m_Name: ShockStrike
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -156,9 +156,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterStats: {fileID: 0}
-  speed: 5
+  speed: 30
   hit: Hit
-  thunderDamage: 1
   destroyDelay: 0.4
   damageDelay: 0.2
   maxScale: {x: 3, y: 3, z: 0}
