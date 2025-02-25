@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class CharacterStats : MonoBehaviour
 {
+    private EntityFX entityFX;
     [Header("Major stats")]
     public Stat strength; // 1 point increase damage by 1 and crit power by 1%
     public Stat agility; // 1 point increase evasion by 1% and crit chance by 1%
@@ -50,6 +51,8 @@ public class CharacterStats : MonoBehaviour
     {
         critChance.SetDefaultValue(defaultCritChance);
         currentHp = GetMaxHp();
+        
+        entityFX = GetComponent<EntityFX>();
     }
 
     protected virtual void Update()
@@ -179,18 +182,21 @@ public class CharacterStats : MonoBehaviour
         {
             isIgnited = ignite;
             ignitedTimer = spellDuration;
+            entityFX.IgniteFxFor(spellDuration); 
         }
         
         if (chill)
         {
             isChilled = chill;
             chilledTimer = spellDuration;
+            entityFX.ChillFxFor(spellDuration);
         }
         
         if (shock)
         {
             isShocked = shock;
             shockedTimer = spellDuration;
+            entityFX.ShockFxFor(spellDuration);
         }
         
     }
