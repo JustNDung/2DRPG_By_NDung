@@ -7,6 +7,7 @@ public class CharacterStats : MonoBehaviour
     public Stat agility; // 1 point increase evasion by 1% and crit chance by 1%
     public Stat intelligence; // 1 point increase magic damage by 1 and magic resistance by 3
     public Stat vitality; // 1 point increase health by 3 or 5 points
+    [SerializeField] public float healthIncreasePerVitality = 5;
 
     [Header("Defensive stats")] 
     public Stat maxHp;
@@ -43,11 +44,12 @@ public class CharacterStats : MonoBehaviour
     [SerializeField] private float evasionBoostWhenShocked = 20;
     [SerializeField] private float armorReductionWhenChilled = 0.8f;
     
-    [SerializeField] private float currentHp;
+    public float currentHp;
+    public System.Action onHealthChanged;
     protected virtual void Start()
     {
         critChance.SetDefaultValue(defaultCritChance);
-        currentHp = maxHp.GetValue();
+        currentHp = GetMaxHp();
     }
 
     protected virtual void Update()
@@ -75,7 +77,7 @@ public class CharacterStats : MonoBehaviour
         if (ignitedDamageTimer < 0 && isIgnited)
         {
             Debug.Log("Take burn damage " + ignitedDamage);
-            currentHp -= ignitedDamage;
+            DecreaseHealthBy(ignitedDamage);
             if (currentHp < 0)
             {
                 Die();
@@ -232,12 +234,25 @@ public class CharacterStats : MonoBehaviour
     
     public virtual void TakeDamage(float damage)
     {
-        currentHp -= damage;
+        DecreaseHealthBy(damage);
         
         if (currentHp <= 0)
         {
             Die();
         }
+
+        onHealthChanged();
+    }
+
+    protected virtual void DecreaseHealthBy(float damage)
+    {
+        currentHp -= damage;
+        
+        if (onHealthChanged != null)
+        {
+            onHealthChanged();
+        }
+        // giảm máu chir là giảm máu đơn thuaanf thôi chứ ko apply effect.
     }
     
     protected virtual void Die()
@@ -263,5 +278,11 @@ public class CharacterStats : MonoBehaviour
         float totalDamage = damage * totalCritPower;
 
         return totalDamage;
+    }
+    
+    public float GetMaxHp()
+    {
+        return maxHp.GetValue() 
+               + vitality.GetValue() * healthIncreasePerVitality;
     }
 }
