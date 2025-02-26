@@ -117,19 +117,6 @@ public class Entity : MonoBehaviour
         }
     }
     #endregion
-
-    public void MakeTransparent(bool transparent)
-    {
-        if (transparent)
-        {
-            spriteRenderer.color = Color.clear;
-        }
-        else
-        {
-            spriteRenderer.color = Color.white;
-        }
-    }
-
     public virtual void Die()
     {
         

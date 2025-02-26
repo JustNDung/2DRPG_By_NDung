@@ -50,7 +50,7 @@ public class PlayerBlackHoleState : PlayerState
     {
         base.Exit();
         rb.gravityScale = defaultGravityScale;
-        PlayerManager.instance.player.MakeTransparent(false);
+        PlayerManager.instance.player.entityFX.MakeTransparent(false);
     }
 }
 
