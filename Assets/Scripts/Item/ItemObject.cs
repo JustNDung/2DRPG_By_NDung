@@ -1,4 +1,4 @@
-using System;
+
 using UnityEngine;
 
 public class ItemObject : MonoBehaviour
@@ -16,7 +16,7 @@ public class ItemObject : MonoBehaviour
     {
         if (other.TryGetComponent(out Player player))
         {
-            Debug.Log("Pick up item" + itemData.itemName);
+            Inventory.instance.AddItem(itemData);
             Destroy(gameObject);
         }
     }
