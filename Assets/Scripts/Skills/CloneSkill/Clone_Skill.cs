@@ -40,6 +40,7 @@ public class Clone_Skill : Skill
             , canAttack, offset
             , FindClosestEnemy(clone.transform, attackCheckRadius), canDuplicateClone
             , createCloneRate
+            , player
         );
     }
     
