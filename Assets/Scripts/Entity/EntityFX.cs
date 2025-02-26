@@ -20,6 +20,18 @@ public class EntityFX : MonoBehaviour
         spriteRenderer = GetComponentInChildren<SpriteRenderer>(); 
         defaultMaterial = spriteRenderer.material;   
     }
+    
+    public void MakeTransparent(bool transparent)
+    {
+        if (transparent)
+        {
+            spriteRenderer.color = Color.clear;
+        }
+        else
+        {
+            spriteRenderer.color = Color.white;
+        }
+    }
 
     private IEnumerator FlashFX()
     {

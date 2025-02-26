@@ -52,6 +52,7 @@ public class CharacterStats : MonoBehaviour
     
     public float currentHp;
     public System.Action onHealthChanged;
+    protected bool isDead;
     protected virtual void Start()
     {
         critChance.SetDefaultValue(defaultCritChance);
@@ -81,17 +82,10 @@ public class CharacterStats : MonoBehaviour
         {
             isShocked = false;
         }
-        
-        if (ignitedDamageTimer < 0 && isIgnited)
+
+        if (isIgnited)
         {
-            Debug.Log("Take burn damage " + ignitedDamage);
-            DecreaseHealthBy(ignitedDamage);
-            if (currentHp < 0)
-            {
-                Die();
-            }
-            ignitedDamageTimer = ignitedDamageCooldown;
-            // Burn damage over time (0.3s)
+            ApplyIgniteDamage();
         }
     }
 
@@ -110,10 +104,16 @@ public class CharacterStats : MonoBehaviour
         {
             totalDamage = CalculateTotalDamageWithCritical(totalDamage);
         }
-        target.TakeDamage(totalDamage);
-        // DoMagicalDamage(target);
+        //target.TakeDamage(totalDamage);
+        DoMagicalDamage(target);
     }
     
+    protected virtual void Die()
+    {
+        isDead = true;
+    }
+
+    #region Magical Damage and Ailments
     public virtual void DoMagicalDamage(CharacterStats target)
     {
         float _fireDamage = fireDamage.GetValue();
@@ -130,6 +130,12 @@ public class CharacterStats : MonoBehaviour
             return;
         } 
         
+        AttemptToApplyAilment(target, _fireDamage, _iceDamage, _lightningDamage);
+    }
+
+    private void AttemptToApplyAilment(CharacterStats target, float _fireDamage, float _iceDamage,
+        float _lightningDamage)
+    {
         bool canApplyIgnite = _fireDamage > _iceDamage && _fireDamage > _lightningDamage;
         bool canApplyChill = _iceDamage > _fireDamage && _iceDamage > _lightningDamage;
         bool canApplyShock = _lightningDamage > _fireDamage && _lightningDamage > _iceDamage;
@@ -220,6 +226,20 @@ public class CharacterStats : MonoBehaviour
         }
         
     }
+    
+    private void ApplyIgniteDamage()
+    {
+        if (ignitedDamageTimer < 0)
+        {
+            DecreaseHealthBy(ignitedDamage);
+            if (currentHp < 0 && !isDead)
+            {
+                Die();
+            }
+            ignitedDamageTimer = ignitedDamageCooldown;
+            // Burn damage over time (0.3s)
+        }
+    }
 
     public void ApplyShock(bool shock)
     {
@@ -277,19 +297,24 @@ public class CharacterStats : MonoBehaviour
     {
         shockDamage = damage;
     }
+    
+    #endregion
 
-    private float CalculateTotalDamageWithArmor(CharacterStats target, float totalDamage)
+    #region Calculate character stats
+    
+    public virtual void TakeDamage(float damage)
     {
-        if (target.isChilled)
+        DecreaseHealthBy(damage);
+        
+        GetComponent<Entity>().DamageImpact();
+        entityFX.StartCoroutine("FlashFX");
+        
+        if (currentHp <= 0)
         {
-            totalDamage -= target.armor.GetValue() * armorReductionWhenChilled;
+            Die();
         }
-        else
-        {
-            totalDamage -= target.armor.GetValue();
-        }
-        totalDamage = Mathf.Clamp(totalDamage, 0, float.MaxValue);
-        return totalDamage;
+
+        onHealthChanged();
     }
     
     private bool CanAvoidAttack(CharacterStats target)
@@ -310,37 +335,6 @@ public class CharacterStats : MonoBehaviour
         return false;
     }
     
-    public virtual void TakeDamage(float damage)
-    {
-        DecreaseHealthBy(damage);
-        
-        GetComponent<Entity>().DamageImpact();
-        entityFX.StartCoroutine("FlashFX");
-        
-        if (currentHp <= 0)
-        {
-            Die();
-        }
-
-        onHealthChanged();
-    }
-
-    protected virtual void DecreaseHealthBy(float damage)
-    {
-        currentHp -= damage;
-        
-        if (onHealthChanged != null)
-        {
-            onHealthChanged();
-        }
-        // giảm máu chir là giảm máu đơn thuaanf thôi chứ ko apply effect.
-    }
-    
-    protected virtual void Die()
-    {
-        
-    }
-
     private bool CanCrit()
     {
         float totalCritChance = critChance.GetValue() + agility.GetValue();
@@ -352,6 +346,17 @@ public class CharacterStats : MonoBehaviour
 
         return false;
     }
+    
+    protected virtual void DecreaseHealthBy(float damage)
+    {
+        currentHp -= damage;
+        
+        if (onHealthChanged != null)
+        {
+            onHealthChanged();
+        }
+        // giảm máu chir là giảm máu đơn thuaanf thôi chứ ko apply effect.
+    }
 
     private float CalculateTotalDamageWithCritical(float damage)
     {
@@ -361,9 +366,25 @@ public class CharacterStats : MonoBehaviour
         return totalDamage;
     }
     
+    private float CalculateTotalDamageWithArmor(CharacterStats target, float totalDamage)
+    {
+        if (target.isChilled)
+        {
+            totalDamage -= target.armor.GetValue() * armorReductionWhenChilled;
+        }
+        else
+        {
+            totalDamage -= target.armor.GetValue();
+        }
+        totalDamage = Mathf.Clamp(totalDamage, 0, float.MaxValue);
+        return totalDamage;
+    }
+    
     public float GetMaxHp()
     {
         return maxHp.GetValue() 
                + vitality.GetValue() * healthIncreasePerVitality;
     }
+
+    #endregion
 }
