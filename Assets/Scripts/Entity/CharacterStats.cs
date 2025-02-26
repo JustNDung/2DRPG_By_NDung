@@ -110,8 +110,8 @@ public class CharacterStats : MonoBehaviour
         {
             totalDamage = CalculateTotalDamageWithCritical(totalDamage);
         }
-        //target.TakeDamage(totalDamage);
-        DoMagicalDamage(target);
+        target.TakeDamage(totalDamage);
+        // DoMagicalDamage(target);
     }
     
     public virtual void DoMagicalDamage(CharacterStats target)
@@ -314,6 +314,9 @@ public class CharacterStats : MonoBehaviour
     {
         DecreaseHealthBy(damage);
         
+        GetComponent<Entity>().DamageImpact();
+        entityFX.StartCoroutine("FlashFX");
+        
         if (currentHp <= 0)
         {
             Die();
@@ -352,7 +355,7 @@ public class CharacterStats : MonoBehaviour
 
     private float CalculateTotalDamageWithCritical(float damage)
     {
-        float totalCritPower = (critPower.GetValue() + strength.GetValue()) * .01f;
+        float totalCritPower = (critPower.GetValue() + strength.GetValue()) * .01f; 
         float totalDamage = damage * totalCritPower;
 
         return totalDamage;
