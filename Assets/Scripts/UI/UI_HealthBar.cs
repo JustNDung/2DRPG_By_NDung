@@ -28,7 +28,6 @@ public class UI_HealthBar : MonoBehaviour
 
     private void FlipUI()
     {
-        Debug.Log("Flipping UI");
         rectTransform.Rotate(0, 180, 0);
     }
 
