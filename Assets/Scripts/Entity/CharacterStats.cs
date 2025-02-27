@@ -104,8 +104,8 @@ public class CharacterStats : MonoBehaviour
         {
             totalDamage = CalculateTotalDamageWithCritical(totalDamage);
         }
-        //target.TakeDamage(totalDamage);
-        DoMagicalDamage(target);
+        target.TakeDamage(totalDamage);
+        // DoMagicalDamage(target);
     }
     
     protected virtual void Die()
