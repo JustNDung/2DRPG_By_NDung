@@ -7,6 +7,9 @@ public class Inventory : MonoBehaviour
 {
     public static Inventory instance;
 
+    public List<InventoryItem> equipment;
+    public Dictionary<ItemData_Equipment, InventoryItem> equipmentDictionary;
+
     public List<InventoryItem> inventory;
     public List<InventoryItem> stash;
     public Dictionary<ItemData, InventoryItem> inventoryDictionary;
@@ -15,9 +18,11 @@ public class Inventory : MonoBehaviour
     [Header("Inventory UI")] 
     [SerializeField] private Transform inventorySlotParent;
     [SerializeField] private Transform stashSlotParent;
+    [SerializeField] private Transform equipmentSlotParent;
 
     private UI_ItemSlot[] inventoryItemSlots;
     private UI_ItemSlot[] stashItemSlots;
+    private UI_EquipmentSlot[] equipmentSlots;
     
     private void Awake()
     {
@@ -33,19 +38,71 @@ public class Inventory : MonoBehaviour
 
     private void Start()
     {
+        equipment = new List<InventoryItem>();
         inventory = new List<InventoryItem>();
         stash = new List<InventoryItem>();
-        
+
+        equipmentDictionary = new Dictionary<ItemData_Equipment, InventoryItem>();
         inventoryDictionary = new Dictionary<ItemData, InventoryItem>();
         stashDictionary = new Dictionary<ItemData, InventoryItem>();
         
         inventoryItemSlots = inventorySlotParent.GetComponentsInChildren<UI_ItemSlot>();
         stashItemSlots = stashSlotParent.GetComponentsInChildren<UI_ItemSlot>();
+        equipmentSlots = equipmentSlotParent.GetComponentsInChildren<UI_EquipmentSlot>();
         // Find all the component and add all of it into array. 
     }
 
+    public void EquipItem(ItemData item)
+    {
+        // Can not equip an equipment which is the same type as an equipment player has equipped.
+        ItemData_Equipment newEquipment = item as ItemData_Equipment;
+        InventoryItem newItem = new InventoryItem(newEquipment);
+        ItemData_Equipment oldEquipment = null;
+
+        foreach (KeyValuePair<ItemData_Equipment, InventoryItem> _equipment in equipmentDictionary)
+        {
+            if (_equipment.Key.equipmentType == newEquipment.equipmentType)
+            {
+                oldEquipment = _equipment.Key;
+            }
+        }
+
+        if (oldEquipment != null)
+        {
+            UnequipItem(oldEquipment);
+            AddItem(oldEquipment);
+            // Unequip item which exists with the same item type
+        }
+        
+        equipment.Add(newItem);
+        equipmentDictionary.Add(newEquipment, newItem);
+        RemoveItem(item);
+        UpdateUISlot();
+    }
+
+    private void UnequipItem(ItemData_Equipment itemToRemove)
+    {
+        if (equipmentDictionary.TryGetValue(itemToRemove, out InventoryItem value))
+        {
+            equipment.Remove(value);
+            equipmentDictionary.Remove(itemToRemove);
+        }
+    }
+
+    // TODO
+    // Optimizing Update UiSlot
     private void UpdateUISlot()
     {
+        for (int i = 0; i < inventoryItemSlots.Length; i++)
+        {
+            inventoryItemSlots[i].CleanUpSlot();
+        }
+         
+        for (int i = 0; i < stashItemSlots.Length; i++)
+        {
+            stashItemSlots[i].CleanUpSlot();
+        }
+        
         for (int i = 0; i < inventory.Count; i++)
         {
             inventoryItemSlots[i].UpdateSlot(inventory[i]);
@@ -54,6 +111,17 @@ public class Inventory : MonoBehaviour
         for (int i = 0; i < stash.Count; i++)
         {
             stashItemSlots[i].UpdateSlot(stash[i]);
+        }
+
+        for (int i = 0; i < equipmentSlots.Length; i++)
+        {
+            foreach (KeyValuePair<ItemData_Equipment, InventoryItem> _equipment in equipmentDictionary)
+            {
+                if (_equipment.Key.equipmentType == equipmentSlots[i].equipmentType)
+                {
+                    equipmentSlots[i].UpdateSlot(_equipment.Value);
+                }
+            }
         }
     }
 
@@ -71,6 +139,8 @@ public class Inventory : MonoBehaviour
         UpdateUISlot();
     }
 
+    // TODO 
+    // Optimizing these 3 function to shorter function.
     private void AddToInventory(ItemData itemData)
     {
         if (inventoryDictionary.TryGetValue(itemData, out InventoryItem value))
@@ -83,6 +153,7 @@ public class Inventory : MonoBehaviour
             inventory.Add(newItem);
             inventoryDictionary.Add(itemData, newItem);
         }
+        // Update UI slot from here
     }
     
     private void AddToStash(ItemData itemData)
@@ -97,6 +168,7 @@ public class Inventory : MonoBehaviour
             stash.Add(newItem);
             stashDictionary.Add(itemData, newItem);
         }
+        // Update UI slot from here
     }
 
     public void RemoveItem(ItemData itemData)
