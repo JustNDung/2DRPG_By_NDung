@@ -4346,6 +4346,8 @@ MonoBehaviour:
   evasionBoostWhenShocked: 20
   armorReductionWhenChilled: 0.8
   currentHp: 0
+  level: 7
+  percentageModifier: 0.4
 --- !u!70 &714999941
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -7773,7 +7775,7 @@ GameObject:
   - component: {fileID: 1371847515}
   - component: {fileID: 1371847514}
   m_Layer: 0
-  m_Name: Item object - Nice armor
+  m_Name: Item object - Plate armor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
