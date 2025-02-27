@@ -9,9 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f36ec931d1dd91f40b381e356d9ea0de, type: 3}
-  m_Name: Iron
+  m_Script: {fileID: 11500000, guid: a266391d58d963240a47d87cfab8f95c, type: 3}
+  m_Name: Wooden sword
   m_EditorClassIdentifier: 
-  itemType: 0
-  itemName: Iron
-  icon: {fileID: 1025795234, guid: a9ca9a41598dd2e44b125928045c518f, type: 3}
+  itemType: 1
+  itemName: Wooden Sword
+  icon: {fileID: 1025091068, guid: a9ca9a41598dd2e44b125928045c518f, type: 3}
+  equipmentType: 0
